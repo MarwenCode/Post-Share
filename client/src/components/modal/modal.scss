@@ -1,0 +1,53 @@
+.modal-overlay {
+  position: absolute;
+  top: 50px; /* Adjust the top position based on your Navbar height */
+  left: calc(100% - 220px); /* Adjust the value to position the Modal */
+  width: 200px; /* Adjust the width as needed */
+  background-color: #312525;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  color: black;
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .profile-line,
+    .signout-line {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f0f0f0;
+      text-align: center;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    background-color: #4d3938;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #e48b8b;
+    }
+  }
+}

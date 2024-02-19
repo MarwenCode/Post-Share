@@ -1,0 +1,84 @@
+.share-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem;
+    background-color: #fafcff;
+    color: #251e1e;
+    margin: 0 auto;
+    max-width: 600px; /* Adjust the width as needed */
+  
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+  
+      &::placeholder {
+        color: #999;
+      }
+    }
+  
+    .file-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #333;
+      width: 100%;
+    
+  
+      input[type="file"] {
+        display: none;
+        
+      }
+  
+      label {
+        cursor: pointer;
+        padding: 8px 12px;
+        // border: 1px solid #ccc;
+        border-radius: 4px;
+       
+      }
+  
+      .file-name {
+        font-size: 14px;
+      }
+    }
+  
+    .share-actions {
+      display: flex;
+      align-items: center;
+    //   gap: 100px;
+      margin-top: -50px;
+    
+  
+      .picker {
+        font-size: 1.2rem;
+        z-index: 1;
+        position: absolute;
+        // margin-top: 180px;
+        margin-left: 50px;
+      }
+  
+      .share-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #1b1c1d;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 490px;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
