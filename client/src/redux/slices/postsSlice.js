@@ -14,6 +14,23 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   }
 });
 
+
+export const fetchOwnPosts = createAsyncThunk("posts/fetchOwnPosts", async() =>  {
+
+  try {
+    const response = await axios.get(
+      "http://localhost:5500/api/post/myposts/:id"
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+  
+})
+
+
+
+
 // Define the async thunk to add a comment
 export const addComment = createAsyncThunk(
   "posts/addComment",
@@ -31,23 +48,7 @@ export const addComment = createAsyncThunk(
   }
 );
 
-// export const deleteComment = createAsyncThunk(
-//   "posts/deleteComment",
-//   async ({ postId, commentId }) => {
-//     try {
-//       const response = await axios.delete(
-//         `https://social-media-app-vp1y.onrender.com/api/comments/${commentId}`
-//       );
 
-//       console.log("Delete Comment Response:", response.data);
-
-//       return { postId, commentId };
-//     } catch (error) {
-//       console.error(`Error deleting comment with ID ${commentId}:`, error);
-//       throw error;
-//     }
-//   }
-// );
 
 
 export const deleteComment = createAsyncThunk(
@@ -84,6 +85,56 @@ export const editComment = createAsyncThunk(
 );
 
 
+export const addPost = createAsyncThunk(
+  "posts/addPost",
+  async (postData, thunkAPI) => {
+    try {
+      const user = thunkAPI.getState().user.data;
+
+      // Ensure that required data is available
+      if (!postData.desc || !user._id || !user.username) {
+        console.error("Description, userId, and username are required.");
+        return;
+      }
+
+      // Create a plain object to send as the request body
+      const newPostData = {
+        desc: postData.desc,
+        userId: user._id,
+        username: user.username,
+      };
+
+      // Send the request to the server
+      const response = await axios.post("http://localhost:5500/api/post", newPostData);
+
+      // Return the response data
+      return response.data;
+    } catch (error) {
+      console.error("Error adding post:", error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+//delete post
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async ({ postId }) => {
+    try {
+      await axios.delete(`http://localhost:5500/api/post/${postId}`);
+
+      return postId
+      
+    } catch (error) {
+      console.error("Error deleting post:", error);
+     return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
 
 const postsSlice = createSlice({
   name: "posts",
@@ -103,6 +154,19 @@ const postsSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(addPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.posts.push(action.payload);
+      })
+
+      .addCase(deletePost.fulfilled, (state, action) => {
+        const postId = action.payload;
+        return {
+          ...state,
+          posts: state.posts.filter((post) => post._id !== postId),
+        };
+      })
+
       .addCase(addComment.fulfilled, (state, action) => {
         // Update the state to include the new comment
         const {postId, commentId } = action.payload;
@@ -112,18 +176,12 @@ const postsSlice = createSlice({
         }
       })
 
-      // Add this case to the reducer
-      // .addCase(deleteComment.fulfilled, (state, action) => {
-      //   const { postId, commentId } = action.payload;
-      //   const post = state.posts.find((post) => post._id === postId);
+      .addCase(fetchOwnPosts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+      })
 
-      //   if (post) {
-      //     // Remove the deleted comment from the post's comments array
-      //     post.comments = post.comments.filter(
-      //       (comment) => comment._id !== commentId
-      //     );
-      //   }
-      // });
+    
 
       .addCase(deleteComment.fulfilled, (state, action) => {
         const commentId = action.payload;

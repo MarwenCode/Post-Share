@@ -57,6 +57,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+
 app.post("/api/upload", upload.single("file"), (req, res) => {
   console.error(req.file);
   console.error(req.body);
@@ -65,28 +67,6 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 });
 
 
-//   console.log(req.body);
-//   next();
-// }, upload.single("name"), (req, res) => {
-//   res.status(200).json("File has been uploaded");
-// });
-
-app.post("/api/upload", (req, res) => {
-  const file = req.files.file;
-  cloudinary.uploader.upload(file.tempFilePath, (err, result) => {
-    if (err) {
-      res.status(500).json({
-        message: "Error uploading file",
-        error: err,
-      });
-    } else {
-      res.status(200).json({
-        message: "File uploaded successfully",
-        result,
-      });
-    }
-  });
-});
 
 
 

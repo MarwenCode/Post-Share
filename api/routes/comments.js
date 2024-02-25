@@ -140,30 +140,60 @@ commentRoute.delete("/:id", async (req, res) => {
 
 // update a comment
 
-commentRoute.put("/:id", async(req, res) => {
+// commentRoute.put("/:id", async(req, res) => {
+//   try {
+//     const comment = await Comment.findById(req.params.id);
+//     if (comment.userId === req.body.userId) {
+//       try {
+//         const updateComment = await Comment.findByIdAndUpdate(
+//           req.params.id,
+//           {$set: req.body},
+//           {new: true}
+//         );
+//         res.status(200).json(updateComment);
+//       } catch (error) {
+//         res.status(500).json(error)
+        
+//       }
+//     }else {
+//       res.status(401).json("you can edit only your comment")
+//     }
+
+//   } catch (error) {
+//     res.status(500).json(error);
+    
+//   }
+// })
+
+
+// Update a comment
+commentRoute.put("/:id", async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
-    if (comment.userId === req.body.userId) {
-      try {
-        const updateComment = await Comment.findByIdAndUpdate(
-          req.params.id,
-          {$set: req.body},
-          {new: true}
-        );
-        res.status(200).json(updateComment);
-      } catch (error) {
-        res.status(500).json(error)
-        
-      }
-    }else {
-      res.status(401).json("you can edit only your comment")
+
+    // Check if the comment exists
+    if (!comment) {
+      return res.status(404).json("Comment not found");
     }
 
+    // Check if the user is the owner of the comment
+    // if (comment.userId !== req.body.userId) {
+    //   return res.status(401).json("You can edit only your comment");
+    // }
+
+    // Update the comment
+    const updatedComment = await Comment.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.status(200).json(updatedComment);
   } catch (error) {
     res.status(500).json(error);
-    
   }
-})
+});
+
 
 
 

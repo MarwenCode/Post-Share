@@ -1,0 +1,62 @@
+/* modalEditComment.scss */
+
+.modal-edit-comment {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+  
+      .close-btn {
+        position: absolute;
+        top: -05px;
+        right: 10px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #0f0f0f;
+        transition: color 0.3s;
+  
+        &:hover {
+          color: #333;
+        }
+      }
+  
+      textarea {
+        min-height: 100px;
+        min-width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+      }
+  
+      .button {
+        button {
+          color: #fff;
+          background-color: #251e1e;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+  
+          &:hover {
+            background-color: #4e4848;
+          }
+        }
+      }
+    }
+  }
+  

@@ -5,8 +5,11 @@ import {
   fetchPosts,
   addComment,
   deleteComment,
-  editComment,
+  addPost,
+  deletePost
+ 
 } from "../../redux/slices/postsSlice";
+import ModalEditComment from "./ModalEditComment";
 
 import "./posts.scss";
 
@@ -16,7 +19,8 @@ const Posts = () => {
   const user = useSelector((state) => state.user.data);
   const [expandedComments, setExpandedComments] = useState({});
   const [newComments, setNewComments] = useState({});
-  const [editCommentMode, setEditCommentMode] = useState(false)
+  const [editCommentMode, setEditCommentMode] = useState(false);
+ 
 
   // const location = useLocation();
   // console.log(location);
@@ -32,6 +36,9 @@ const Posts = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
+
+
+ 
 
   const handleLike = (postId) => {
     // Handle the like logic here (you may need to dispatch an action)
@@ -74,37 +81,19 @@ const Posts = () => {
     }));
   };
 
-  const handleResponse = (postId, commentId) => {
-    // Handle the response logic here
-    console.log(`Responding to comment with ID ${commentId} on post ${postId}`);
+
+
+
+  const openEditModeComment = () => {
+    setEditCommentMode(true);
+ 
   };
 
-  const handleEditComment = async (postId, commentId, updatedText) => {
-    try {
-      await dispatch(editComment({ commentId, updatedText }));
-
-      await dispatch(fetchPosts());
-    } catch (error) {
-      console.error("Error editing comment:", error);
-    }
-  };
-
-
-  const setEditModeComment = () => {
-    setEditCommentMode((prev) => !prev)
+  const closeEditModeComment = () => {
+    setEditCommentMode(false);
   }
 
-
-  // const handleDeleteComment = async (postId, commentId) => {
-  //   try {
-  //     // Dispatch the deleteComment action
-  //     console.log("Deleting comment:", postId, commentId);
-  //     await dispatch(deleteComment({ postId, commentId }));
-  //     console.log("Comment deleted successfully");
-  //   } catch (error) {
-  //     console.error(`Error deleting comment with ID ${commentId}:`, error);
-  //   }
-  // };
+ 
 
   const handleDeleteComment = async (postId, commentId) => {
     try {
@@ -116,6 +105,16 @@ const Posts = () => {
       console.error(`Error deleting comment with ID ${commentId}:`, error);
     }
   };
+
+const handleDeletePost = async (postId) => {
+  try {
+    await dispatch(deletePost({postId}));
+
+    console.log("Post deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting post:", error);
+  }
+};
 
   if (posts.loading) {
     return <p>Loading...</p>;
@@ -152,9 +151,23 @@ const Posts = () => {
                 </button>
                 <span>{post.likes.length} Likes</span>
 
-                <button className="editIcon">✏️ Edit</button>
+               
+                {post.userId === user._id && (
+                  <>
+                       <button className="editIcon">✏️ Edit</button>
 
-                <button className="deleteIcon">🗑️ Delete</button>
+<button className="deleteIcon"
+
+onClick={()=>handleDeletePost(post._id)}
+
+
+>🗑️ Delete</button>
+                  
+                  
+                  </>
+              
+
+                )}
               </div>
 
               <div className="postComments">
@@ -162,7 +175,7 @@ const Posts = () => {
                   className="commentCount"
                   onClick={() => toggleComments(post._id)}>
                   <span className="commentIcon">🗨️</span>
-                  {post.comments.length} Comments
+                  {post?.comments?.length} Comments
                 </div>
 
                 <textarea
@@ -175,7 +188,9 @@ const Posts = () => {
                     })
                   } // Modify this line
                 />
-                <button className="add" onClick={() => handleAddComment(post._id)}>
+                <button
+                  className="add"
+                  onClick={() => handleAddComment(post._id)}>
                   Add Comment
                 </button>
 
@@ -188,37 +203,22 @@ const Posts = () => {
                           <div className="content">
                             <span className="commentIcon">🗨️</span>
                             {editCommentMode ? (
-
-
                               <>
-                                <textarea />
-
-
-
+                                  <ModalEditComment
+                                onClose={closeEditModeComment}
+                                postId={post._id}
+                                commentId={comment._id}
+                                initialText={comment.text}
+                              />
                               </>
-
-
                             ) : (
-
-                                 <> 
-                                     <strong>{comment.username}</strong>: {comment.text}
-                            {new Date(comment.createdAt).toDateString()}
-                                 
-                                 
-                                 </>
-
-                          
-
-
-                            )
-
-
-
-
-                            }
-
+                              <>
+                                <strong>{comment.username}</strong>:{" "}
+                                {comment.text}
+                                {new Date(comment.createdAt).toDateString()}
+                              </>
+                            )}
                           </div>
-
 
                           {comment.userId === user._id && (
                             <div className="icons">
@@ -234,12 +234,10 @@ const Posts = () => {
                                 onClick={() =>
                                   // handleEditComment(post._id, comment._id)
 
-                                  setEditModeComment()
-
+                                  openEditModeComment()
                                 }>
                                 ✏️
                               </button>
-
                             </div>
                           )}
                         </li>
@@ -257,6 +255,3 @@ const Posts = () => {
 };
 
 export default Posts;
-
-
-

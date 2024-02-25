@@ -21,17 +21,7 @@ const PostSchema = new mongoose.Schema({
         type: Array,
         default: [],
       },
-      // comment: {
-      //   type: [
-      //     {
-      //       commenterId:String,
-      //       commenterPseudo: String,
-      //       text: String,
-      //       timestamp: Number,
-      //     }
-      //   ],
-      //   required: true,
-      // },
+  
 
 }, { timestamps: true,
     toJSON: { getters: true, virtuals: true },

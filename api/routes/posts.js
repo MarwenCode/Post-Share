@@ -39,23 +39,20 @@ postRoute.put("/:id", async (req, res) => {
 });
 
 //delete a post
+// delete a post
 postRoute.delete("/:id", async (req, res) => {
+  console.log("Request Params:", req.params);
+  const post = await Post.findById(req.params.id);
   try {
-    const post = await Post.findById(req.params.id);
-    if (post.userId === req.body.userId) {
-      try {
-        await post.deleteOne();
-        res.status(200).json("post has been deleted");
-      } catch (error) {
-        res.status(500).json(error);
-      }
-    } else {
-      res.status(401).json("you can delete only your post");
-    }
+    await post.deleteOne();
+    console.log("Post deleted successfully");
+    res.status(200).json("Post has been deleted");
   } catch (error) {
+    console.error("Error deleting post:", error);
     res.status(500).json(error);
   }
 });
+
 
 //like && dislike a post
 postRoute.put("/:id/like", async (req, res) => {
@@ -75,10 +72,7 @@ postRoute.put("/:id/like", async (req, res) => {
 
 //get a post
 postRoute.get("/:id", async (req, res) => {
-  
-
   try {
-  
     const posts = await Post.findById(req.params.id)
       .populate("comments")
       .exec();
@@ -86,7 +80,6 @@ postRoute.get("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-  
 });
 
 //get all posts
@@ -98,8 +91,6 @@ postRoute.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
-
-
 
 //get my own posts
 
@@ -115,8 +106,6 @@ postRoute.get("/myposts/:id", async (req, res) => {
   }
 });
 
-
-
 //get all posts
 
 postRoute.get("/", async (req, res) => {
@@ -129,7 +118,4 @@ postRoute.get("/", async (req, res) => {
   }
 });
 
-
-
 export default postRoute;
-

@@ -1,16 +1,52 @@
 import { BsEmojiSmile } from "react-icons/bs";
-import { MdCancel } from "react-icons/md";
-import { FcFolder } from "react-icons/fc";
 import { FaImage } from "react-icons/fa";
 import { useState } from "react";
 import Picker from "emoji-picker-react";
+import { addPost,fetchPosts } from "../../redux/slices/postsSlice";
 import "./share.scss";
+import { useDispatch, useSelector } from "react-redux";
 
 const Share = () => {
-  const [inputStr, setInputStr] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
+
+
+  const [description, setDescription] = useState("");
   const [picture, setPicture] = useState(null);
   const [fileName, setFileName] = useState("");
   const [showPicker, setShowPicker] = useState(false);
+
+  const handleAddPost = async () => {
+    try {
+      // Ensure that required data is available
+      if (!description || !user._id || !user.username) {
+        console.error("Description, userId, and username are required.");
+        return;
+      }
+  
+      // Create a plain object to send as the request body
+      const postData = {
+        desc: description,
+        userId: user._id,
+        username: user.username,
+      };
+  
+      // Dispatch the addPost action
+      await dispatch(addPost(postData));
+  
+      // Clear input fields after successful post
+      setDescription("");
+      setPicture(null);
+      setFileName("");
+
+       // Dispatch the fetchPosts action to refresh the posts data
+       await dispatch(fetchPosts());
+  
+      console.log("Post added successfully!");
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
+  };
 
 
 
@@ -20,19 +56,12 @@ const Share = () => {
     setFileName(file.name);
   };
 
-  const handleShare = () => {
-    // Implement your share logic here
-    console.log("Sharing the post...");
- 
-    console.log("Picture:", picture);
-  };
-
   const handlePickerClick = () => {
     setShowPicker(!showPicker);
   };
 
   const onEmojiClick = (event, emojiObject) => {
-    setInputStr((prevInput) => prevInput + emojiObject.emoji);
+    setDescription((prevDescription) => prevDescription + emojiObject.emoji);
     setShowPicker(false);
   };
 
@@ -40,7 +69,8 @@ const Share = () => {
     <div className="share-container">
       <textarea
         placeholder="Write a sentence..."
-      
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       ></textarea>
       <div className="file-input">
         <label htmlFor="file-upload">
@@ -58,14 +88,10 @@ const Share = () => {
         <div className="picker" onClick={handlePickerClick}>
           <BsEmojiSmile />
           {showPicker && (
-                <Picker
-                  pickerStyle={{ width: "100%" }}
-                  onEmojiClick={onEmojiClick}
-                />
-              )}
+            <Picker pickerStyle={{ width: "100%" }} onEmojiClick={onEmojiClick} />
+          )}
         </div>
-        <button className="share-button" onClick={handleShare}>
-         
+        <button className="share-button" onClick={handleAddPost}>
           Share
         </button>
       </div>
