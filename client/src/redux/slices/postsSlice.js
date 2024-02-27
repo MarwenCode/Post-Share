@@ -134,6 +134,20 @@ export const deletePost = createAsyncThunk(
 );
 
 
+export const editPost = createAsyncThunk("posts/editPost", async ({postId , updatedText}) => {
+  try {
+
+    const response = await axios.put(`http://localhost:5500/api/post/${postId}`,
+    { desc: updatedText }
+  );
+  return response.data;
+  }catch(err){
+    throw err
+  }
+    
+})
+
+
 
 
 const postsSlice = createSlice({
@@ -166,6 +180,17 @@ const postsSlice = createSlice({
           posts: state.posts.filter((post) => post._id !== postId),
         };
       })
+
+      .addCase(editPost.fulfilled, (state, action) => {
+        const updatedPost = action.payload;
+        const index = state.posts.findIndex((post) => post._id === updatedPost._id);
+      
+        if (index !== -1) {
+         
+          state.posts[index] = updatedPost;
+        }
+      })
+      
 
       .addCase(addComment.fulfilled, (state, action) => {
         // Update the state to include the new comment

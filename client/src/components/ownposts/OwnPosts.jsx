@@ -1,16 +1,7 @@
 // Posts.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   fetchPosts,
-//   addComment,
-//   deleteComment,
-
-// } from "../../redux/slices/postsSlice";
-// import ModalEditComment from "./ModalEditComment";
-
-
-import { fetchPosts, addComment,deleteComment } from "../../redux/slices/postsSlice";
+import { fetchOwnPosts, deleteComment,deletePost, addComment,addPost, fetchPosts } from "../../redux/slices/postsSlice";
 import ModalEditComment from "../posts/ModalEditComment";
 
 const OwnPosts = () => {
@@ -21,10 +12,7 @@ const OwnPosts = () => {
   const [newComments, setNewComments] = useState({});
   const [editCommentMode, setEditCommentMode] = useState(false);
 
-  // const location = useLocation();
-  // console.log(location);
-  // const path = location.pathname.split("/")[2];
-  // console.log(path);
+ 
 
   console.log(user);
   console.log(user.username);
@@ -71,16 +59,24 @@ const OwnPosts = () => {
     }
   };
 
+
+  const handleDeletePost = async (postId) => {
+    try {
+      await dispatch(deletePost({ postId }));
+
+      console.log("Post deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
   const toggleComments = (postId) => {
     setExpandedComments((prev) => ({
       [postId]: !prev[postId],
     }));
   };
 
-  // const handleResponse = (postId, commentId) => {
-  //   // Handle the response logic here
-  //   console.log(`Responding to comment with ID ${commentId} on post ${postId}`);
-  // };
+
 
   const openEditModeComment = () => {
     setEditCommentMode(true);
@@ -90,16 +86,7 @@ const OwnPosts = () => {
     setEditCommentMode(false);
   };
 
-  // const handleDeleteComment = async (postId, commentId) => {
-  //   try {
-  //     // Dispatch the deleteComment action
-  //     console.log("Deleting comment:", postId, commentId);
-  //     await dispatch(deleteComment({ postId, commentId }));
-  //     console.log("Comment deleted successfully");
-  //   } catch (error) {
-  //     console.error(`Error deleting comment with ID ${commentId}:`, error);
-  //   }
-  // };
+
 
   const handleDeleteComment = async (postId, commentId) => {
     try {
@@ -149,7 +136,11 @@ const OwnPosts = () => {
 
                   <button className="editIcon">✏️ Edit</button>
 
-                  <button className="deleteIcon">🗑️ Delete</button>
+                  <button
+                      className="deleteIcon"
+                      onClick={() => handleDeletePost(post._id)}>
+                      🗑️ Delete
+                    </button>
                 </div>
 
                 <div className="postComments">
@@ -157,7 +148,7 @@ const OwnPosts = () => {
                     className="commentCount"
                     onClick={() => toggleComments(post._id)}>
                     <span className="commentIcon">🗨️</span>
-                    {post.comments.length} Comments
+                    {post.comments?.length} Comments
                   </div>
 
                   <textarea

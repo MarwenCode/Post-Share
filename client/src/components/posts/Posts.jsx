@@ -6,12 +6,12 @@ import {
   addComment,
   deleteComment,
   addPost,
-  deletePost
- 
+  deletePost,
 } from "../../redux/slices/postsSlice";
 import ModalEditComment from "./ModalEditComment";
 
 import "./posts.scss";
+import ModalEditPost from "./ModalEditPost";
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const Posts = () => {
   const [expandedComments, setExpandedComments] = useState({});
   const [newComments, setNewComments] = useState({});
   const [editCommentMode, setEditCommentMode] = useState(false);
- 
+  const [editModePost, setEditModePost] = useState(false);
 
   // const location = useLocation();
   // console.log(location);
@@ -36,9 +36,6 @@ const Posts = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
-
-
- 
 
   const handleLike = (postId) => {
     // Handle the like logic here (you may need to dispatch an action)
@@ -81,19 +78,16 @@ const Posts = () => {
     }));
   };
 
-
-
-
   const openEditModeComment = () => {
     setEditCommentMode(true);
- 
   };
 
   const closeEditModeComment = () => {
     setEditCommentMode(false);
-  }
-
- 
+  };
+  const closeEditModePost = () => {
+    setEditModePost(false);
+  };
 
   const handleDeleteComment = async (postId, commentId) => {
     try {
@@ -106,15 +100,15 @@ const Posts = () => {
     }
   };
 
-const handleDeletePost = async (postId) => {
-  try {
-    await dispatch(deletePost({postId}));
+  const handleDeletePost = async (postId) => {
+    try {
+      await dispatch(deletePost({ postId }));
 
-    console.log("Post deleted successfully!");
-  } catch (error) {
-    console.error("Error deleting post:", error);
-  }
-};
+      console.log("Post deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   if (posts.loading) {
     return <p>Loading...</p>;
@@ -151,22 +145,27 @@ const handleDeletePost = async (postId) => {
                 </button>
                 <span>{post.likes.length} Likes</span>
 
-               
+                {editModePost && <ModalEditPost 
+                onClose={closeEditModePost} 
+                initialText={post.desc}  
+                postId={post._id}
+                
+                />}
+
                 {post.userId === user._id && (
                   <>
-                       <button className="editIcon">✏️ Edit</button>
+                    <button
+                      className="editIcon"
+                      onClick={() => setEditModePost(true)}>
+                      ✏️ Edit
+                    </button>
 
-<button className="deleteIcon"
-
-onClick={()=>handleDeletePost(post._id)}
-
-
->🗑️ Delete</button>
-                  
-                  
+                    <button
+                      className="deleteIcon"
+                      onClick={() => handleDeletePost(post._id)}>
+                      🗑️ Delete
+                    </button>
                   </>
-              
-
                 )}
               </div>
 
@@ -204,12 +203,12 @@ onClick={()=>handleDeletePost(post._id)}
                             <span className="commentIcon">🗨️</span>
                             {editCommentMode ? (
                               <>
-                                  <ModalEditComment
-                                onClose={closeEditModeComment}
-                                postId={post._id}
-                                commentId={comment._id}
-                                initialText={comment.text}
-                              />
+                                <ModalEditComment
+                                  onClose={closeEditModeComment}
+                                  postId={post._id}
+                                  commentId={comment._id}
+                                  initialText={comment.text}
+                                />
                               </>
                             ) : (
                               <>

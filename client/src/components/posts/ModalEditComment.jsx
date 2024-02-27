@@ -12,7 +12,7 @@ const ModalEditComment = ({ onClose, postId, commentId, initialText }) => {
     try {
       await dispatch(editComment({ commentId, updatedText: editedText.text }));
       await dispatch(fetchPosts());
-      onClose(); // Close the modal after saving the edit
+      onClose();
     } catch (error) {
       console.error("Error editing comment:", error);
     }

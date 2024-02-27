@@ -16,27 +16,20 @@ postRoute.post("/", async (req, res) => {
 });
 
 //update a post
+// Update a post (without checking userId)
 postRoute.put("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    if (post.userId === req.body.userId) {
-      try {
-        const updatePost = await Post.findByIdAndUpdate(
-          req.params.id,
-          { $set: req.body },
-          { new: true }
-        );
-        res.status(200).json(updatePost);
-      } catch (error) {
-        res.status(500).json(error);
-      }
-    } else {
-      res.status(401).json("you can update only your post");
-    }
+    const updatePost = await Post.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json(updatePost);
   } catch (error) {
     res.status(500).json(error);
   }
 });
+
 
 //delete a post
 // delete a post
