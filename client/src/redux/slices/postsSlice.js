@@ -1,4 +1,3 @@
-// postsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -14,9 +13,8 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   }
 });
 
-
-export const fetchOwnPosts = createAsyncThunk("posts/fetchOwnPosts", async() =>  {
-
+export const fetchOwnPosts = createAsyncThunk("posts/fetchOwnPosts", async () => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get(
       "http://localhost:5500/api/post/myposts/:id"
@@ -25,11 +23,20 @@ export const fetchOwnPosts = createAsyncThunk("posts/fetchOwnPosts", async() => 
   } catch (error) {
     throw error;
   }
-  
-})
+});
 
 
-
+export const fetchUserPosts = createAsyncThunk("posts/fetchUserPosts", async ({ userId }) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const response = await axios.get(
+      `http://localhost:5500/api/post/user/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});
 
 // Define the async thunk to add a comment
 export const addComment = createAsyncThunk(
@@ -47,9 +54,6 @@ export const addComment = createAsyncThunk(
     }
   }
 );
-
-
-
 
 export const deleteComment = createAsyncThunk(
   "posts/deleteComment",
@@ -75,15 +79,12 @@ export const editComment = createAsyncThunk(
         `http://localhost:5500/api/comments/${commentId}`,
         { text: updatedText }
       );
-      console.log(response.data);
       return response.data;
-     
     } catch (error) {
       throw error;
     }
   }
 );
-
 
 export const addPost = createAsyncThunk(
   "posts/addPost",
@@ -116,7 +117,6 @@ export const addPost = createAsyncThunk(
   }
 );
 
-
 //delete post
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
@@ -124,31 +124,24 @@ export const deletePost = createAsyncThunk(
     try {
       await axios.delete(`http://localhost:5500/api/post/${postId}`);
 
-      return postId
-      
+      return postId;
     } catch (error) {
       console.error("Error deleting post:", error);
-     return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
 
-
-export const editPost = createAsyncThunk("posts/editPost", async ({postId , updatedText}) => {
+export const editPost = createAsyncThunk("posts/editPost", async ({ postId, updatedText }) => {
   try {
-
-    const response = await axios.put(`http://localhost:5500/api/post/${postId}`,
-    { desc: updatedText }
-  );
-  return response.data;
-  }catch(err){
-    throw err
+    const response = await axios.put(`http://localhost:5500/api/post/${postId}`, {
+      desc: updatedText,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
   }
-    
-})
-
-
-
+});
 
 const postsSlice = createSlice({
   name: "posts",
@@ -167,6 +160,10 @@ const postsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      .addCase(fetchUserPosts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+      })
 
       .addCase(addPost.fulfilled, (state, action) => {
         state.loading = false;
@@ -184,17 +181,15 @@ const postsSlice = createSlice({
       .addCase(editPost.fulfilled, (state, action) => {
         const updatedPost = action.payload;
         const index = state.posts.findIndex((post) => post._id === updatedPost._id);
-      
+
         if (index !== -1) {
-         
           state.posts[index] = updatedPost;
         }
       })
-      
 
       .addCase(addComment.fulfilled, (state, action) => {
         // Update the state to include the new comment
-        const {postId, commentId } = action.payload;
+        const { postId, commentId } = action.payload;
         const post = state.posts.find((post) => post._id === postId);
         if (post) {
           post.comments.push(commentId);
@@ -206,15 +201,11 @@ const postsSlice = createSlice({
         state.posts = action.payload;
       })
 
-    
-
       .addCase(deleteComment.fulfilled, (state, action) => {
         const commentId = action.payload;
         // Iterate over posts and remove the comment from the post
         state.posts.forEach((post) => {
-          post.comments = post.comments.filter(
-            (comment) => comment._id !== commentId
-          );
+          post.comments = post.comments.filter((comment) => comment._id !== commentId);
         });
       })
       .addCase(editComment.fulfilled, (state, action) => {
@@ -222,18 +213,14 @@ const postsSlice = createSlice({
         const post = state.posts.find((post) =>
           post.comments.some((comment) => comment._id === updatedComment._id)
         );
-      
+
         if (post) {
           post.comments = post.comments.map((comment) =>
             comment._id === updatedComment._id ? updatedComment : comment
           );
         }
-      })
-      
+      });
   },
 });
 
 export default postsSlice.reducer;
-
-
-

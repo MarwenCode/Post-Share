@@ -1,7 +1,7 @@
 // Posts.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOwnPosts, deleteComment,deletePost, addComment,addPost, fetchPosts } from "../../redux/slices/postsSlice";
+import { deleteComment,deletePost, addComment,addPost, fetchPosts } from "../../redux/slices/postsSlice";
 import ModalEditComment from "../posts/ModalEditComment";
 
 const OwnPosts = () => {

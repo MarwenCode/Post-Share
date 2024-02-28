@@ -106,7 +106,7 @@ userRoute.put("/unfollow/:id", async (req, res) => {
 });
 
 //get friends
-userRoute.get("/friends/:userId", async (req, res) => {
+userRoute.get("/users/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(

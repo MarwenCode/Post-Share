@@ -1,4 +1,3 @@
-// Posts.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,13 +6,15 @@ import {
   deleteComment,
   addPost,
   deletePost,
+  fetchOwnPosts,
+  fetchUserPosts
 } from "../../redux/slices/postsSlice";
 import ModalEditComment from "./ModalEditComment";
 
 import "./posts.scss";
 import ModalEditPost from "./ModalEditPost";
 
-const Posts = () => {
+const Posts = ({ visitedUserId }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user.data);
@@ -22,20 +23,15 @@ const Posts = () => {
   const [editCommentMode, setEditCommentMode] = useState(false);
   const [editModePost, setEditModePost] = useState(false);
 
-  // const location = useLocation();
-  // console.log(location);
-  // const path = location.pathname.split("/")[2];
-  // console.log(path);
-
-  console.log(user);
-  console.log(user.username);
-  console.log(user._id);
-
-  console.log(posts);
-
   useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+    // Determine which posts to fetch
+    if (visitedUserId) {
+      dispatch(fetchUserPosts({ userId: visitedUserId }));
+    } else {
+      // Fetch posts for all users
+      dispatch(fetchPosts());
+    }
+  }, [dispatch, visitedUserId])
 
   const handleLike = (postId) => {
     // Handle the like logic here (you may need to dispatch an action)
@@ -122,9 +118,22 @@ const Posts = () => {
     return <p>No posts available.</p>;
   }
 
+  // Determine which posts to display
+  let filteredPosts;
+  if (visitedUserId) {
+    // Display posts from the visited user
+    filteredPosts = posts.posts.filter((post) => post.userId === visitedUserId);
+  } else  {
+   
+
+    filteredPosts = posts.posts;
+  } 
+
+  console.log(posts.posts)
+
   return (
     <div className="postsContainer">
-      {posts.posts.map((post) => (
+      {filteredPosts.map((post) => (
         <div key={post._id} className="post">
           <div className="postWrapper">
             <div className="postTop">
