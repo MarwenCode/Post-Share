@@ -1,43 +1,52 @@
-
 .suggested-friends-container {
-    background-color: #fff;
-    border: 1px solid #ddd;
-  
-    padding: 16px;
-    margin-top: -110px;
- 
-    width: 250px;
-    position: absolute;
-    border: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-top: -110px;
+  width: 250px;
+  position: absolute;
+  border: 10px;
+  max-height: 350px;
+  width: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column; /* Updated to column layout */
+  justify-content: space-between; /* Align elements with space between */
 
-  
-    h2 {
-      font-size: 18px;
+  h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .friend {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Align items horizontally */
       margin-bottom: 12px;
-    }
-  
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-  
-      .friend {
+      width: 100%; /* Take full width */
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 12px;
+        object-fit: cover;
+      }
+
+      .info {
         display: flex;
         align-items: center;
-        margin-bottom: 12px;
-  
-        img {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          margin-right: 12px;
-        }
-  
+
         span {
           font-size: 16px;
           margin-right: 12px;
         }
-  
+
         button {
           background-color: #3498db;
           color: #fff;
@@ -50,4 +59,5 @@
       }
     }
   }
-  
+}
+

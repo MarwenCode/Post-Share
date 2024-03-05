@@ -68,7 +68,19 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 
 
 
-
+// const auth = async (req, res, next) => {
+//   console.log("Authentication middleware called");
+//   try {
+//     const token = req.headers.authorization.split(" ")[1];
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = await User.findById(decoded.id);
+//     console.log("User object set in req:", req.user);
+//     next();
+//   } catch (error) {
+//     console.error("Error in authentication middleware:", error);
+//     res.status(401).json({ message: "Unauthorized" });
+//   }
+// };
 
 
 

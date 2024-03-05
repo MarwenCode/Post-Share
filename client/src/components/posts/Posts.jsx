@@ -26,7 +26,7 @@ const Posts = ({ visitedUserId }) => {
   useEffect(() => {
     // Determine which posts to fetch
     if (visitedUserId) {
-      dispatch(fetchUserPosts({ userId: visitedUserId }));
+      dispatch(fetchPosts({ userId: visitedUserId }));
     } else {
       // Fetch posts for all users
       dispatch(fetchPosts());
@@ -161,7 +161,7 @@ const Posts = ({ visitedUserId }) => {
                 
                 />}
 
-                {post.userId === user._id && (
+                {post.userId === user?._id && (
                   <>
                     <button
                       className="editIcon"

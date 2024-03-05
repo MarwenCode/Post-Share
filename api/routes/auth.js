@@ -29,6 +29,7 @@ authRoute.post("/register", async (req, res) => {
 
 //Login
 //Login
+
 authRoute.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });

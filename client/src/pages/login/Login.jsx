@@ -18,6 +18,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
   
@@ -49,38 +51,38 @@ const Login = () => {
     }
   
     // Dispatch the loginUser async thunk
-  // Dispatch the loginUser async thunk
-  try {
-    const response = await dispatch(loginUser({ email, password }));
-    console.log("Response status:", response.payload.status);
-    console.log("Response data:", response.payload.data);
-
-    // Check the response status
-    if (!response.error) {
-      // Set login success state to true
-      setLoginSuccess(true);
-       // Store user data in local storage
-    localStorage.setItem('user', JSON.stringify(response.payload.data));
-      console.log("Before navigate");
-      navigate("/");
-      console.log("Navigation attempt");
-    } else {
-      // Handle login error and set appropriate error messages
-      const data = response.payload.data;
-      if (data === "wrong email") {
-        setEmailError("Wrong email");
-      } else if (data === "wrong password") {
-        setPasswordError("Wrong password");
+    try {
+      const response = await dispatch(loginUser({ email, password }));
+      console.log("Response status:", response.payload.status);
+      console.log("Response data:", response.payload.data);
+  
+      // Check the response status
+      if (!response.error) {
+        // Set login success state to true
+        setLoginSuccess(true);
+  
+        // Store user data in local storage
+        localStorage.setItem('user', JSON.stringify(response.payload.data));
+        console.log("Before navigate");
+        navigate("/");
+        console.log("Navigation attempt");
       } else {
-        setErrorMessageAll(data);
+        // Handle login error and set appropriate error messages
+        const data = response.payload.data;
+        if (data === "wrong email") {
+          setEmailError("Wrong email");
+        } else if (data === "wrong password") {
+          setPasswordError("Wrong password");
+        } else {
+          setErrorMessageAll(data);
+        }
       }
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Set login success state to false
+      setErrorMessageAll('Login failed. Please try again.');
     }
-  } catch (error) {
-    console.error('Error during login:', error);
-    // Set login success state to false
-    setErrorMessageAll('Login failed. Please try again.');
-  }
-};
+  };
   
 
 

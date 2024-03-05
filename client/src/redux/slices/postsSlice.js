@@ -30,7 +30,7 @@ export const fetchUserPosts = createAsyncThunk("posts/fetchUserPosts", async ({ 
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get(
-      `http://localhost:5500/api/post/user/${userId}`
+      `http://localhost:5500/api/post/${userId}`
     );
     return response.data;
   } catch (error) {

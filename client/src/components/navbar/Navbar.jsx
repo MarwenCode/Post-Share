@@ -12,8 +12,6 @@ const Navbar = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const navigate = useNavigate();
- 
-
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -31,7 +29,6 @@ const Navbar = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:5500/api/user");
-
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -42,17 +39,16 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const filteredUsers = users.filter((user) => {
-      return user.username.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-
+    const filteredUsers = users.filter((user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     setFilteredUsers(filteredUsers);
   }, [searchTerm, users]);
 
   const handleRedirectToProfile = (userId) => {
-    navigate(`/users/${userId}`);
+    navigate(`/user/${userId}`);
+    setFilteredUsers([])
   };
-  
 
   return (
     <nav className={`navbar ${isDarkTheme ? "dark" : ""}`}>
@@ -81,14 +77,18 @@ const Navbar = () => {
         </div>
       </div>
       {/* Display search results */}
-      {filteredUsers.length > 0 && (
+      {searchTerm !== "" && filteredUsers.length > 0 && (
         <div className="search-results">
           <ul>
-            {filteredUsers.map((user) => (
-              <li key={user._id} onClick={() => handleRedirectToProfile(user._id)}>
-                {user.username}
-              </li>
-            ))}
+          {filteredUsers.map((user) => {
+  if (user.username !== searchTerm && user.username !== JSON.parse(localStorage.getItem("user")).username) {
+    return (
+      <li key={user._id} onClick={() => handleRedirectToProfile(user._id)}>
+        {user.username}
+      </li>
+    );
+  }
+})}
           </ul>
         </div>
       )}
