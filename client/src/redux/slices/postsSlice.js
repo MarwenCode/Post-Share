@@ -143,6 +143,16 @@ export const editPost = createAsyncThunk("posts/editPost", async ({ postId, upda
   }
 });
 
+
+export const likePost = createAsyncThunk("posts/likePost", async ({ postId, userId }) => {
+  try {
+    const response = await axios.put(`http://localhost:5500/api/post/${postId}/like`, { userId });
+    return { postId, userId, action: response.data }; // Response data could be "liked" or "disliked"
+  } catch (error) {
+    throw error;
+  }
+});
+
 const postsSlice = createSlice({
   name: "posts",
   initialState: { loading: false, posts: [], error: null },
@@ -219,7 +229,21 @@ const postsSlice = createSlice({
             comment._id === updatedComment._id ? updatedComment : comment
           );
         }
+      })
+       .addCase(likePost.fulfilled, (state, action) => {
+        const { postId, userId, action: likeAction } = action.payload;
+        const post = state.posts.find((p) => p._id === postId);
+  
+        if (post) {
+          if (likeAction === 'liked') {
+            post.likes.push(userId);
+          } else if (likeAction === 'disliked') {
+            post.likes = post.likes.filter((likeUserId) => likeUserId !== userId);
+          }
+        }
       });
+      
+      
   },
 });
 

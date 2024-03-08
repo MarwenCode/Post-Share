@@ -1,17 +1,17 @@
 .suggested-friends-container {
-  background-color: #fff;
+  background-color: #e9e1ff;
   border: 1px solid #ddd;
   padding: 16px;
   margin-top: -110px;
-  width: 250px;
+  width: 330px;
   position: absolute;
-  border: 10px;
   max-height: 350px;
-  width: 280px;
   overflow-y: auto;
   display: flex;
-  flex-direction: column; /* Updated to column layout */
-  justify-content: space-between; /* Align elements with space between */
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 
   h2 {
     font-size: 18px;
@@ -26,9 +26,9 @@
     .friend {
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Align items horizontally */
+      justify-content: space-between;
       margin-bottom: 12px;
-      width: 100%; /* Take full width */
+      width: 100%;
 
       img {
         width: 40px;
@@ -60,4 +60,3 @@
     }
   }
 }
-

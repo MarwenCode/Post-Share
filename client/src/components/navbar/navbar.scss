@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background-color: #e7dede;
+  // background-color: #e7dede;
   color: #251e1e;
 
   &.dark {
@@ -23,15 +23,17 @@
   .searchbar {
     display: flex;
     align-items: center;
+    
 
     input[type="text"] {
       padding: 0.5rem;
-      border-radius: 4px;
-      border: none;
+      border-radius: 10px;
+      // border: none;
       margin-right: 0.5rem;
       font-size: 1rem;
-      width: 400px;
+      width: 500px;
       outline: none;
+      background-color: #d0d19c;
     }
 
     button {
@@ -62,12 +64,28 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background-color: #555;
+      // background-color: #555;
       width: 30px;
       height: 30px;
       margin-left: 1rem;
       cursor: pointer;
     }
+
+    .settings-icon {
+      background-color: rgb(84, 85, 31);
+    }
+    .profile-icon {
+      background-color: rgb(88, 85, 240);
+    }
+    .home-icon {
+      background-color: rgb(179, 173, 155);
+    }
+    .theme-toggle{
+      background-color: #555;
+    }
+
+
+
   }
 
   .search-results {

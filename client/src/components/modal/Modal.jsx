@@ -4,7 +4,7 @@ import { clearUser } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import "./modal.scss"
 
-const Modal = () => {
+const Modal = ({closeModal}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Modal = () => {
   };
 
   const handleClose = () => {
-    // Implement your close logic here
+    closeModal(false)
   };
 
 

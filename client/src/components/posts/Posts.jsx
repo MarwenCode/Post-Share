@@ -7,11 +7,14 @@ import {
   addPost,
   deletePost,
   fetchOwnPosts,
-  fetchUserPosts
+  fetchUserPosts,
+  likePost,
 } from "../../redux/slices/postsSlice";
 import ModalEditComment from "./ModalEditComment";
 
 import "./posts.scss";
+import { FaHeart } from "react-icons/fa";
+
 import ModalEditPost from "./ModalEditPost";
 
 const Posts = ({ visitedUserId }) => {
@@ -23,6 +26,8 @@ const Posts = ({ visitedUserId }) => {
   const [editCommentMode, setEditCommentMode] = useState(false);
   const [editModePost, setEditModePost] = useState(false);
 
+  const [likedPosts, setLikedPosts] = useState({});
+
   useEffect(() => {
     // Determine which posts to fetch
     if (visitedUserId) {
@@ -31,11 +36,19 @@ const Posts = ({ visitedUserId }) => {
       // Fetch posts for all users
       dispatch(fetchPosts());
     }
-  }, [dispatch, visitedUserId])
+  }, [dispatch, visitedUserId]);
 
   const handleLike = (postId) => {
+    // Toggle liked state for the specific post
+    setLikedPosts((prevLikedPosts) => ({
+      ...prevLikedPosts,
+      [postId]: !prevLikedPosts[postId],
+    }));
+  
     // Handle the like logic here (you may need to dispatch an action)
     console.log(`Liked post with ID: ${postId}`);
+    dispatch(likePost({ postId: postId, userId: user._id }));
+    dispatch(fetchPosts());
   };
 
   //add new comments
@@ -123,13 +136,11 @@ const Posts = ({ visitedUserId }) => {
   if (visitedUserId) {
     // Display posts from the visited user
     filteredPosts = posts.posts.filter((post) => post.userId === visitedUserId);
-  } else  {
-   
-
+  } else {
     filteredPosts = posts.posts;
-  } 
+  }
 
-  console.log(posts.posts)
+  console.log(posts.posts);
 
   return (
     <div className="postsContainer">
@@ -149,17 +160,21 @@ const Posts = ({ visitedUserId }) => {
                 <img className="postImage" src={post.img} alt="Post" />
               )}
               <div className="postActions">
-                <button className="like" onClick={() => handleLike(post._id)}>
-                  &#x2661; Like
-                </button>
-                <span>{post.likes.length} Likes</span>
+              <button
+      className={`like ${likedPosts[post._id] ? "liked" : ""}`}
+      onClick={() => handleLike(post._id)}
+    >
+      <FaHeart color={likedPosts[post._id] ? "red" : "#ab9f9f"} />
+    </button>
+    <span>{post.likes.length} Likes</span>
 
-                {editModePost && <ModalEditPost 
-                onClose={closeEditModePost} 
-                initialText={post.desc}  
-                postId={post._id}
-                
-                />}
+                {editModePost && (
+                  <ModalEditPost
+                    onClose={closeEditModePost}
+                    initialText={post.desc}
+                    postId={post._id}
+                  />
+                )}
 
                 {post.userId === user?._id && (
                   <>

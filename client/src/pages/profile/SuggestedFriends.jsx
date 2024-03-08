@@ -37,7 +37,7 @@ const SuggestedFriends = () => {
 
   return (
     <div className="suggested-friends-container">
-      <h2>Suggested Friends</h2>
+      <h2> Friends</h2>
       <ul>
       {suggestedFriends.map((friend) => (
   <li key={friend._id} className="friend">
@@ -51,12 +51,7 @@ const SuggestedFriends = () => {
     )}
     <div className="info">
       <span>{friend.username}</span>
-      {/* {console.log("Friend ID :", friend._id)}
-      {user.followings.includes(friend._id) ? (
-   <button onClick={() => dispatch(unfollowUser())}>Unfollow</button>
-) : (
-   <button onClick={() => dispatch(followUser())}>Follow</button>
-)} */}
+
 
     </div>
   </li>
