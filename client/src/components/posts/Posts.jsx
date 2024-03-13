@@ -44,7 +44,7 @@ const Posts = ({ visitedUserId }) => {
       ...prevLikedPosts,
       [postId]: !prevLikedPosts[postId],
     }));
-  
+
     // Handle the like logic here (you may need to dispatch an action)
     console.log(`Liked post with ID: ${postId}`);
     dispatch(likePost({ postId: postId, userId: user._id }));
@@ -148,25 +148,30 @@ const Posts = ({ visitedUserId }) => {
         <div key={post._id} className="post">
           <div className="postWrapper">
             <div className="postTop">
-              <img className="postImg" src={post.photo} alt="" />
+              {/* <img className="postImg" src={post.img} alt="" /> */}
               <span className="postUsername">{post.username}</span>
               <span className="postDate">
                 {new Date(post.createdAt).toDateString()}
               </span>
             </div>
             <div className="postCenter">
+              {console.log("Current post:", post)}
               <span className="postText">{post.desc}</span>
               {post.img && (
-                <img className="postImage" src={post.img} alt="Post" />
+                <img
+                  className="postImage"
+                  src={`http://localhost:5500/images/${post.img}`}
+                  alt="Post"
+                />
               )}
+
               <div className="postActions">
-              <button
-      className={`like ${likedPosts[post._id] ? "liked" : ""}`}
-      onClick={() => handleLike(post._id)}
-    >
-      <FaHeart color={likedPosts[post._id] ? "red" : "#ab9f9f"} />
-    </button>
-    <span>{post.likes.length} Likes</span>
+                <button
+                  className={`like ${likedPosts[post._id] ? "liked" : ""}`}
+                  onClick={() => handleLike(post._id)}>
+                  <FaHeart color={likedPosts[post._id] ? "red" : "#ab9f9f"} />
+                </button>
+                <span>{post.likes.length} Likes</span>
 
                 {editModePost && (
                   <ModalEditPost

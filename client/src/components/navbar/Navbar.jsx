@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "../modal/Modal";
 import axios from "axios";
-import { FiSearch, FiUser, FiSettings, FiMoon, FiSun, FiHome } from "react-icons/fi";
+import {
+  FiSearch,
+  FiUser,
+  FiSettings,
+  FiMoon,
+  FiSun,
+  FiHome,
+} from "react-icons/fi";
 import "./navbar.scss";
+import ModalEditProfile from "./ModalEditProfile";
 
 const Navbar = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -12,6 +20,19 @@ const Navbar = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const navigate = useNavigate();
+
+
+
+  const [modalEditProfileOpen, setModalEditProfileOpen] = useState(false);
+
+  const handleModalEditProfile = () => {
+    setModalEditProfileOpen(true);
+    console.log("test clic")
+  };
+
+  const closeModalEditProfile = () => {
+    setModalEditProfileOpen((prev) => !prev);
+  };
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -47,7 +68,7 @@ const Navbar = () => {
 
   const handleRedirectToProfile = (userId) => {
     navigate(`/user/${userId}`);
-    setFilteredUsers([])
+    setFilteredUsers([]);
   };
 
   return (
@@ -72,23 +93,37 @@ const Navbar = () => {
           <FiUser />
         </div>
         {modalOpen && <Modal closeModal={closeModal} />}
-        <div className="settings-icon">
+        <div className="settings-icon" onClick={handleModalEditProfile}>
           <FiSettings />
         </div>
+        {modalEditProfileOpen && (
+          <ModalEditProfile closeModal={closeModalEditProfile} />
+        )}
+
+      
+      
+      
       </div>
+    
       {/* Display search results */}
       {searchTerm !== "" && filteredUsers.length > 0 && (
         <div className="search-results">
           <ul>
-          {filteredUsers.map((user) => {
-  if (user.username !== searchTerm && user.username !== JSON.parse(localStorage.getItem("user")).username) {
-    return (
-      <li key={user._id} onClick={() => handleRedirectToProfile(user._id)}>
-        {user.username}
-      </li>
-    );
-  }
-})}
+            {filteredUsers.map((user) => {
+              if (
+                user.username !== searchTerm &&
+                user.username !==
+                  JSON.parse(localStorage.getItem("user")).username
+              ) {
+                return (
+                  <li
+                    key={user._id}
+                    onClick={() => handleRedirectToProfile(user._id)}>
+                    {user.username}
+                  </li>
+                );
+              }
+            })}
           </ul>
         </div>
       )}

@@ -53,7 +53,28 @@ const getStoredUser = () => {
 
 
 
-// ... (existing code)
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async ({ userId, updatedData }, { rejectWithValue }) => {
+    try {
+      // Assuming the server expects 'multipart/form-data' for file upload
+      const formData = new FormData();
+      for (const key in updatedData) {
+        formData.append(key, updatedData[key]);
+      }
+
+      const response = await axios.put(`http://localhost:5500/api/user/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return response.data.updatedUser;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -106,6 +127,10 @@ const userSlice = createSlice({
       .addCase(loadUserById.rejected, (state, action) => {
         state.error = action.error.message;
       })
+
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.data = action.payload;
+      });
     
   },
 });

@@ -36,6 +36,8 @@
     margin-right: 10px;
   }
 
+ 
+
   .postUsername {
     font-weight: bold;
     margin-right: 10px;
@@ -44,6 +46,15 @@
   .postDate {
     color: #888;
   }
+}
+
+
+.postImage {
+  width: 100%;
+  height: 520px;
+  // border-radius: 50%;
+  margin-right: 10px;
+
 }
 
 .postActions {

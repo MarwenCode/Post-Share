@@ -8,6 +8,9 @@ import SuggestedFriends from "../profile/SuggestedFriends";
 import Socials from "../../components/socials/Socials";
 
 const Home = () => {
+
+
+ 
   return (
     <div className="home">
       <Navbar />

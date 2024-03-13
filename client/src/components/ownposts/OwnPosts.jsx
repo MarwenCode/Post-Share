@@ -15,8 +15,8 @@ const OwnPosts = () => {
  
 
   console.log(user);
-  console.log(user.username);
-  console.log(user._id);
+  console.log(user?.username);
+  console.log(user?._id);
 
   console.log(posts);
 
@@ -114,7 +114,7 @@ const OwnPosts = () => {
     <div className="postsContainer">
       {posts.posts.map((post) => (
         <div key={post._id} className="post">
-          {post.userId === user._id && (
+          {post.userId === user?._id && (
             <div className="postWrapper">
               <div className="postTop">
                 <img className="postImg" src={post.photo} alt="" />
@@ -126,8 +126,12 @@ const OwnPosts = () => {
               <div className="postCenter">
                 <span className="postText">{post.desc}</span>
                 {post.img && (
-                  <img className="postImage" src={post.img} alt="Post" />
-                )}
+                <img
+                  className="postImage"
+                  src={`http://localhost:5500/images/${post.img}`}
+                  alt="Post"
+                />
+              )}
                 <div className="postActions">
                   <button className="like" onClick={() => handleLike(post._id)}>
                     &#x2661; Like

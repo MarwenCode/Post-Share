@@ -86,36 +86,99 @@ export const editComment = createAsyncThunk(
   }
 );
 
-export const addPost = createAsyncThunk(
-  "posts/addPost",
-  async (postData, thunkAPI) => {
-    try {
-      const user = thunkAPI.getState().user.data;
+// export const addPost = createAsyncThunk('posts/addPost', async (postData, thunkAPI) => {
+//   try {
+//     const user = thunkAPI.getState().user.data;
 
-      // Ensure that required data is available
-      if (!postData.desc || !user._id || !user.username) {
-        console.error("Description, userId, and username are required.");
-        return;
-      }
+//     // Ensure that required data is available
+//     if (!postData.desc || !user._id || !user.username) {
+//       console.error('Description, userId, and username are required.');
+//       return;
+//     }
 
-      // Create a plain object to send as the request body
-      const newPostData = {
-        desc: postData.desc,
-        userId: user._id,
-        username: user.username,
-      };
+//     // Create a FormData object to send as the request body
+//     const formData = new FormData();
+//     formData.append('desc', postData.desc);
+//     formData.append('userId', user._id);
+//     formData.append('username', user.username);
 
-      // Send the request to the server
-      const response = await axios.post("http://localhost:5500/api/post", newPostData);
+//     // Append the image file if available
+//     if (postData.picture) {
+//       formData.append('picture', postData.picture);
+//     }
 
-      // Return the response data
-      return response.data;
-    } catch (error) {
-      console.error("Error adding post:", error);
-      return thunkAPI.rejectWithValue(error.response.data);
+//     // Send the request to the server
+//     const response = await axios.post('http://localhost:5500/api/post', formData);
+
+//     // Return the response data
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error adding post:', error);
+//     return thunkAPI.rejectWithValue(error.response.data);
+//   }
+// });
+
+
+export const addPost = createAsyncThunk('posts/addPost', async (postData, thunkAPI) => {
+  try {
+    const { desc, img } = postData;
+    const { _id, username } = thunkAPI.getState().user.data;
+
+    // Ensure that required data is available
+    if (!desc || !_id || !username) {
+      console.error('Description, userId, and username are required.');
+      return;
     }
+
+    const formData = new FormData();
+    formData.append('desc', desc);
+    formData.append('userId', _id);
+    formData.append('username', username);
+
+    if (img) {
+      formData.append('file', img); // Use the same key as in your component
+    }
+
+    const response = await axios.post('http://localhost:5500/api/post', formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error adding post:', error);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
-);
+});
+
+
+
+// export const addPost = createAsyncThunk(
+//   "posts/addPost",
+//   async (postData, thunkAPI) => {
+//     try {
+//       const user = thunkAPI.getState().user.data;
+
+//       // Ensure that required data is available
+//       if (!postData.desc || !user._id || !user.username) {
+//         console.error("Description, userId, and username are required.");
+//         return;
+//       }
+
+//       // Create a plain object to send as the request body
+//       const newPostData = {
+//         desc: postData.desc,
+//         userId: user._id,
+//         username: user.username,
+//       };
+
+//       // Send the request to the server
+//       const response = await axios.post("http://localhost:5500/api/post", newPostData);
+
+//       // Return the response data
+//       return response.data;
+//     } catch (error) {
+//       console.error("Error adding post:", error);
+//       return thunkAPI.rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 //delete post
 export const deletePost = createAsyncThunk(
