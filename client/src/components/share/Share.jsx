@@ -6,7 +6,7 @@ import { addPost, fetchPosts } from "../../redux/slices/postsSlice";
 import "./share.scss";
 import { useDispatch, useSelector } from "react-redux";
 
-const Share = () => {
+const Share = ({ isDarkTheme }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
 
@@ -14,6 +14,7 @@ const Share = () => {
   const [picture, setPicture] = useState(null);
   const [fileName, setFileName] = useState("");
   const [showPicker, setShowPicker] = useState(false);
+
 
   const handleAddPost = async () => {
     try {
@@ -81,7 +82,7 @@ const Share = () => {
   };
 
   return (
-    <div className="share-container">
+    <div className={`share-container ${isDarkTheme ? 'dark' : ''}`}>
       <textarea
         placeholder="Write a sentence..."
         value={description}

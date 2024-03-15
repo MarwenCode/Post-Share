@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { MdPerson } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import './stories.scss';
 
 const Stories = () => {
+  const user = useSelector((state) => state.user.data);
   const [modalVisible, setModalVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imageList, setImageList] = useState([]);
@@ -56,6 +59,9 @@ const Stories = () => {
     setModalVisible(true);
   };
 
+
+  
+
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -75,8 +81,12 @@ const Stories = () => {
               onClick={handleImageClick}
             />
             <div className='overlay'>
-              <img  src='../../../public/assets/test.jpg' />
-              <span>name</span>
+            {user.profilePicture ? (
+                <img src={user.profilePicture} alt="Profile" />
+              ) : (
+                <MdPerson size={80} color="#555" />
+              )}
+              <span>{user.username}</span>
             
             </div>
           </div>
@@ -86,7 +96,8 @@ const Stories = () => {
       {/* Modal with progress bar */}
       {modalVisible && (
         <div className='modal'>
-          <div className='progress-bar' style={{ width: `${(progress / 15) * 100}%` }} />
+           
+          <div className='progress-bar' style={{ width: `${(progress / 12) * 100}%` }} />
           <div className='modal-content'>
             {/* Image to display in the modal */}
             <img
@@ -95,6 +106,7 @@ const Stories = () => {
               // style={{ width: '100%', height: 'auto' }}
             />
           </div>
+          <button className="close-button" onClick={closeModal}>X</button>
         </div>
       )}
     </div>

@@ -38,19 +38,22 @@ const Posts = ({ visitedUserId }) => {
     }
   }, [dispatch, visitedUserId]);
 
-  const handleLike = (postId) => {
-    // Toggle liked state for the specific post
-    setLikedPosts((prevLikedPosts) => ({
-      ...prevLikedPosts,
-      [postId]: !prevLikedPosts[postId],
-    }));
 
-    // Handle the like logic here (you may need to dispatch an action)
-    console.log(`Liked post with ID: ${postId}`);
-    dispatch(likePost({ postId: postId, userId: user._id }));
-    dispatch(fetchPosts());
+  const handleLike = async (postId) => {
+    try {
+      // Handle the like logic here (you may need to dispatch an action)
+      await dispatch(likePost({ postId: postId, userId: user._id }));
+      // Update the likedPosts state after handling the like logic
+      setLikedPosts((prevLikedPosts) => ({
+        ...prevLikedPosts,
+        [postId]: !prevLikedPosts[postId],
+      }));
+      dispatch(fetchPosts()); // Optionally fetch posts after like operation
+    } catch (error) {
+      console.log("Error liking post:", error);
+    }
   };
-
+  
   //add new comments
 
   const handleAddComment = async (postId) => {
@@ -202,8 +205,9 @@ const Posts = ({ visitedUserId }) => {
                 <div
                   className="commentCount"
                   onClick={() => toggleComments(post._id)}>
-                  <span className="commentIcon">🗨️</span>
-                  {post?.comments?.length} Comments
+                  <span className="commentIcon" >🗨️</span>
+                 <span className="nbr"> {post?.comments?.length} </span> <span className="text" >Comments</span>
+
                 </div>
 
                 <textarea

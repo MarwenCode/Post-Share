@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Modal from "../modal/Modal";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   FiSearch,
   FiUser,
@@ -9,33 +8,26 @@ import {
   FiMoon,
   FiSun,
   FiHome,
-} from "react-icons/fi";
-import "./navbar.scss";
-import ModalEditProfile from "./ModalEditProfile";
-
-const Navbar = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+} from 'react-icons/fi';
+import './navbar.scss';
+import ModalEditProfile from './ModalEditProfile';
+import Modal from "../modal/Modal"
+const Navbar = ({ toggleTheme, isDarkTheme }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const navigate = useNavigate();
-
-
 
   const [modalEditProfileOpen, setModalEditProfileOpen] = useState(false);
 
   const handleModalEditProfile = () => {
     setModalEditProfileOpen(true);
-    console.log("test clic")
+    console.log('test clic');
   };
 
   const closeModalEditProfile = () => {
     setModalEditProfileOpen((prev) => !prev);
-  };
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
   };
 
   const handleModalProfile = () => {
@@ -49,10 +41,10 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5500/api/user");
+        const response = await axios.get('http://localhost:5500/api/user');
         setUsers(response.data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error('Error fetching users:', error);
       }
     };
 
@@ -72,7 +64,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`navbar ${isDarkTheme ? "dark" : ""}`}>
+    <nav className={`navbar ${isDarkTheme ? 'dark' : ''}`}>
       <div className="logo">Post & Share</div>
       <div className="searchbar">
         <input
@@ -99,26 +91,22 @@ const Navbar = () => {
         {modalEditProfileOpen && (
           <ModalEditProfile closeModal={closeModalEditProfile} />
         )}
-
-      
-      
-      
       </div>
-    
       {/* Display search results */}
-      {searchTerm !== "" && filteredUsers.length > 0 && (
+      {searchTerm !== '' && filteredUsers.length > 0 && (
         <div className="search-results">
           <ul>
             {filteredUsers.map((user) => {
               if (
                 user.username !== searchTerm &&
                 user.username !==
-                  JSON.parse(localStorage.getItem("user")).username
+                  JSON.parse(localStorage.getItem('user')).username
               ) {
                 return (
                   <li
                     key={user._id}
-                    onClick={() => handleRedirectToProfile(user._id)}>
+                    onClick={() => handleRedirectToProfile(user._id)}
+                  >
                     {user.username}
                   </li>
                 );
@@ -132,3 +120,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

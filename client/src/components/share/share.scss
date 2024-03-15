@@ -8,6 +8,8 @@
     color: #251e1e;
     margin: 0 auto;
     max-width: 600px;
+
+   
   
     textarea {
       width: 100%;
@@ -21,31 +23,7 @@
       }
     }
   
-    // .file-input {
-    //   display: relative;
-    //   align-items: center;
-    //   gap: 10px;
-    //   color: #333;
-    //   width: 100%;
-    
   
-    //   input[type="file"] {
-    //     display: none;
-        
-    //   }
-  
-    //   label {
-    //     cursor: pointer;
-    //     padding: 8px 12px;
-    //     // border: 1px solid #ccc;
-    //     border-radius: 4px;
-       
-    //   }
-  
-    //   .file-name {
-    //     font-size: 14px;
-    //   }
-    // }
 
     .file-input {
       position: relative;
@@ -116,4 +94,9 @@
         }
       }
     }
+  }
+
+  .dark {
+    background-color: #222;
+    color: #fff;
   }

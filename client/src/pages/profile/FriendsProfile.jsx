@@ -17,7 +17,7 @@ import { MdPerson } from "react-icons/md";
 import SuggestedFriends from "./SuggestedFriends";
 import Trendings from "./Trendings";
 
-const FriendsProfile = () => {
+const FriendsProfile = ({isDarkTheme}) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [visitedUser, setVisitedUser] = useState(null);
@@ -72,8 +72,7 @@ const FriendsProfile = () => {
 
   return (
     <div className="friendsprofile">
-      <Navbar />
-      <Share />
+      <Share  isDarkTheme={isDarkTheme}  />
       <div className="content">
         <div className="leftSidebar">
           <div className="top">

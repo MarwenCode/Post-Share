@@ -1,8 +1,10 @@
 // Posts.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteComment,deletePost, addComment,addPost, fetchPosts } from "../../redux/slices/postsSlice";
+import { deleteComment,deletePost, addComment,addPost, fetchPosts, likePost } from "../../redux/slices/postsSlice";
 import ModalEditComment from "../posts/ModalEditComment";
+import { FaHeart } from "react-icons/fa";
+import ModalEditPost from "../posts/ModalEditPost";
 
 const OwnPosts = () => {
   const dispatch = useDispatch();
@@ -11,8 +13,10 @@ const OwnPosts = () => {
   const [expandedComments, setExpandedComments] = useState({});
   const [newComments, setNewComments] = useState({});
   const [editCommentMode, setEditCommentMode] = useState(false);
+  const [editModePost, setEditModePost] = useState(false);
 
  
+  const [likedPosts, setLikedPosts] = useState({});
 
   console.log(user);
   console.log(user?.username);
@@ -24,10 +28,22 @@ const OwnPosts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const handleLike = (postId) => {
-    // Handle the like logic here (you may need to dispatch an action)
-    console.log(`Liked post with ID: ${postId}`);
+  const handleLike = async (postId) => {
+    try {
+      // Handle the like logic here (you may need to dispatch an action)
+      await dispatch(likePost({ postId: postId, userId: user._id }));
+      // Update the likedPosts state after handling the like logic
+      setLikedPosts((prevLikedPosts) => ({
+        ...prevLikedPosts,
+        [postId]: !prevLikedPosts[postId],
+      }));
+      dispatch(fetchPosts()); // Optionally fetch posts after like operation
+    } catch (error) {
+      console.log("Error liking post:", error);
+    }
   };
+  
+
 
   //add new comments
 
@@ -99,6 +115,9 @@ const OwnPosts = () => {
     }
   };
 
+
+
+
   if (posts.loading) {
     return <p>Loading...</p>;
   }
@@ -132,28 +151,47 @@ const OwnPosts = () => {
                   alt="Post"
                 />
               )}
-                <div className="postActions">
-                  <button className="like" onClick={() => handleLike(post._id)}>
-                    &#x2661; Like
-                  </button>
-                  <span>{post.likes.length} Likes</span>
+                    <div className="postActions">
+                <button
+                  className={`like ${likedPosts[post._id] ? "liked" : ""}`}
+                  onClick={() => handleLike(post._id)}>
+                  <FaHeart color={likedPosts[post._id] ? "red" : "#ab9f9f"} />
+                </button>
+                <span>{post.likes.length} Likes</span>
 
-                  <button className="editIcon">✏️ Edit</button>
+                {editModePost && (
+                  <ModalEditPost
+                    onClose={closeEditModePost}
+                    initialText={post.desc}
+                    postId={post._id}
+                  />
+                )}
 
-                  <button
+                {post.userId === user?._id && (
+                  <>
+                    <button
+                      className="editIcon"
+                      onClick={() => setEditModePost(true)}>
+                      ✏️ Edit
+                    </button>
+
+                    <button
                       className="deleteIcon"
                       onClick={() => handleDeletePost(post._id)}>
                       🗑️ Delete
                     </button>
-                </div>
+                  </>
+                )}
+              </div>
 
                 <div className="postComments">
-                  <div
-                    className="commentCount"
-                    onClick={() => toggleComments(post._id)}>
-                    <span className="commentIcon">🗨️</span>
-                    {post.comments?.length} Comments
-                  </div>
+                <div
+                  className="commentCount"
+                  onClick={() => toggleComments(post._id)}>
+                  <span className="commentIcon" >🗨️</span>
+                 <span className="nbr"> {post?.comments?.length} </span> <span className="text" >Comments</span>
+
+                </div>
 
                   <textarea
                     type="text"
