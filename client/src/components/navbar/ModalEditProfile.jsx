@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import "./modaleditprofile.scss";
 
 const ModalEditProfile = ({ closeModal, userId }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user.data);
   const [editedData, setEditedData] = useState({
     username: user.username || "",
@@ -69,6 +70,7 @@ const ModalEditProfile = ({ closeModal, userId }) => {
 
           // Update local storage with the new user data
           localStorage.setItem("user", JSON.stringify(res.data));
+          dispatch(updateUser(res.data));
         
         }
         window.location.reload();

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { loadUserFromLocalStorage } from './redux/slices/userSlice';
 import Navbar from './components/navbar/Navbar';
 import Register from './pages/register/Register';
@@ -8,10 +7,12 @@ import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
 import FriendsProfile from './pages/profile/FriendsProfile';
+import { useDispatch, useSelector } from "react-redux";
 import './app.scss';
 
 function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const user = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
 
   // Function to toggle the theme
@@ -33,7 +34,8 @@ function App() {
   return (
     <Router>
       <div className={`container ${isDarkTheme ? 'dark' : ''}`}>
-      <Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+      {user && <Navbar toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />}
+   
         <Routes>
           <Route path="/" element={<Home isDarkTheme={isDarkTheme} />} />
           <Route path="/login" element={<Login />} />

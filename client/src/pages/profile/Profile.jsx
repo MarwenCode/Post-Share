@@ -11,40 +11,36 @@ import { updateUser } from "../../redux/slices/userSlice";
 import { MdPerson } from "react-icons/md";
 import { FaMusic, FaHiking, FaUtensils, FaPalette } from "react-icons/fa";
 
-
-const Profile = ({isDarkTheme}) => {
+const Profile = ({ isDarkTheme }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
-  console.log(user)
+  console.log(user);
 
+  // Define content for My Community section
+  const communityCategories = ["Product Designer", "DEVs React JS", "AI"];
 
-// Define content for My Community section
-const communityCategories = ["Product Designer", "DEVs React JS", "AI"];
+  // Define content for Upcoming Events section
+  const upcomingEvent = "Upcoming Event: Conference on AI";
 
-// Define content for Upcoming Events section
-const upcomingEvent = "Upcoming Event: Conference on AI";
+  // Define content for Recommendations section
+  // Define content for Recommendations section with image URLs
+  const recommendations = [
+    { name: "Music", icon: <FaMusic color="blue" /> },
+    { name: "UX Design", icon: <FaPalette color="purple" /> },
+    { name: "Hiking", icon: <FaHiking color="green" /> },
+    { name: "Cooking", icon: <FaUtensils color="orange" /> },
+  ];
 
-// Define content for Recommendations section
-// Define content for Recommendations section with image URLs
-const recommendations = [
-  { name: "Music", icon: <FaMusic color="blue" /> },
-  { name: "UX Design", icon: <FaPalette color="purple" /> },
-  { name: "Hiking", icon: <FaHiking color="green" /> },
-  { name: "Cooking", icon: <FaUtensils color="orange" /> }
-];
-
-
- // Sample data for community
- const communityData = [
-  { name: "Product Designer", icon: "🎨", members: 250 },
-  { name: "DEVs React JS", icon: "⚛️", members: 500 },
-  // Add more community data as needed
-];
+  // Sample data for community
+  const communityData = [
+    { name: "Product Designer", icon: "🎨", members: 250 },
+    { name: "DEVs React JS", icon: "⚛️", members: 500 },
+    // Add more community data as needed
+  ];
 
   return (
-    <div className={`profile ${isDarkTheme ? 'dark' : ''}`}>
-
-<Share isDarkTheme={isDarkTheme} />
+    <div className={`profile ${isDarkTheme ? "dark" : ""}`}>
+      <Share isDarkTheme={isDarkTheme} />
 
       <div className="content">
         <div className="left">
@@ -85,8 +81,8 @@ const recommendations = [
         </div>
 
         <div className="right">
-          {/* My Community section */}
-            <div className="community-section">
+        
+          <div className="community-section">
             <h3>My Community</h3>
             <ul>
               {communityData.map((community, index) => (
@@ -99,26 +95,29 @@ const recommendations = [
             </ul>
           </div>
 
-          {/* Upcoming Events section */}
           <div className="event-section">
             <h3>Upcoming Events</h3>
             <p>{upcomingEvent}</p>
           </div>
 
           <div className="recommendation-section">
-  <h3>Recommendations</h3>
-  <div className="recommendation-list">
-    {recommendations.map((item, index) => (
-      <div key={index} className="recommendation-item">
-        {item.icon}
-        {/* <p>{item.name}</p> */}
-      </div>
-    ))}
-  </div>
-</div>
+            <h3>Recommendations</h3>
+            <div className="recommendation-list">
+              {recommendations.map((item, index) => (
+                <div key={index} className="recommendation-item">
+                  {item.icon}
+              
+                </div>
+              ))}
+            </div>
+           
+          
+          </div>
 
+          <div className="friends">
+            <SuggestedFriends />
 
-          <SuggestedFriends />
+            </div>
         </div>
       </div>
     </div>

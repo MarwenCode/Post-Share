@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { MdPerson } from "react-icons/md";
+import { MdPerson, MdExpandMore, MdExpandLess } from "react-icons/md";
 import "./suggestedfriends.scss";
 
 const SuggestedFriends = () => {
   const [suggestedFriends, setSuggestedFriends] = useState([]);
+  const [showFullList, setShowFullList] = useState(false); // Initialiser l'état à false
 
   const user = useSelector((state) => state.user.data);
-  console.log(user);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -30,10 +30,17 @@ const SuggestedFriends = () => {
     fetchUsers();
   }, [user]);
 
+  const toggleFullList = () => {
+    setShowFullList(!showFullList); // Inverser l'état de showFullList
+  };
+
   return (
     <div className="suggested-friends-container">
-      <h2> Friends</h2>
-      <ul>
+      <button className="expand-button" onClick={toggleFullList}>
+        {showFullList ? <MdExpandLess className="expand-icon" /> : <MdExpandMore className="expand-icon" />}
+        <span>{showFullList ? "Hide Friends" : "Show All Friends"}</span>
+      </button>
+      <ul className={`friends ${showFullList ? 'show' : ''}`}>
         {suggestedFriends.map((friend) => (
           <li key={friend._id} className="friend">
             {friend.profilePicture ? (

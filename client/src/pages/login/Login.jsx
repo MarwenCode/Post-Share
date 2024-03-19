@@ -95,10 +95,7 @@ const Login = () => {
             Do not have an account?
             <Link to="/register" className="link">
               <span
-                style={{
-                  textDecoration: "none",
-                  color: "#1c7ed6",
-                }}
+              
               >
                 &nbsp; Register
               </span>

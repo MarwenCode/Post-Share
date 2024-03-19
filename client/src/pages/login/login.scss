@@ -19,21 +19,26 @@
       .loginLeft {
         // width: 350px;
         margin-top: 130px;
-  
+      
         p {
           color: grey;
           margin-left: 150px;
         }
-  
+      
         .logo {
           width: 100px;
           border-radius: 15px;
         }
-  
+      
         .loginDesc {
           font-size: 34px;
           margin-left: -30px;
-          
+        }
+      
+      
+        .link {
+          text-decoration: none;
+          color: #1c7ed6;
         }
       }
   

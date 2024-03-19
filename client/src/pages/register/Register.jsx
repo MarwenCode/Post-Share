@@ -74,7 +74,7 @@ const Register = () => {
         const data = await response.json();
 
         if (response.ok) {
-          dispatch(loginUser(data));
+          // dispatch(loginUser(data));
           dispatch(setSuccessMessage('Profile created successfully! click on Login'));
         } else {
           dispatch(clearUser());
@@ -96,10 +96,7 @@ const Register = () => {
                 Already have an account?
                 <Link to="/login" className="link">
                   <span
-                    style={{
-                      textDecoration: "none",
-                      color: "#1c7ed6",
-                    }}>
+                   >
                     &nbsp; Login
                   </span>
                 </Link>

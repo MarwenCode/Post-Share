@@ -11,7 +11,7 @@ const Modal = ({closeModal}) => {
   const handleSignOut = () => {
     // Dispatch clearUser action to remove user data from the Redux store
     dispatch(clearUser());
-    // Implement any additional sign-out logic (e.g., redirect to login page)
+    localStorage.removeItem('user');
     navigate('/register');
     console.log('Signing out...');
   };
@@ -20,6 +20,7 @@ const Modal = ({closeModal}) => {
     // Implement your profile click logic here
     navigate('/profile');
     console.log("Navigating to user's profile...");
+    closeModal(false)
   };
 
   const handleClose = () => {

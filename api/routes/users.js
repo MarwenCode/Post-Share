@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
 const userRoute = express.Router();
+import bcrypt from "bcrypt";
 
 //update user
 // userRoute.put("/:id", async (req, res) => {
@@ -35,6 +36,31 @@ userRoute.put("/:id", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
+// Update user
+// userRoute.put("/:id", async (req, res) => {
+//   try {
+//     // Vérifier si le mot de passe est fourni dans le corps de la requête
+//     if (req.body.password) {
+//       // Hacher le mot de passe à l'aide de bcrypt
+//       const salt = await bcrypt.genSalt(10);
+//       const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+//       // Mettre à jour le mot de passe haché dans les données de la requête
+//       req.body.password = hashedPassword;
+//     }
+
+//     const updatedUser = await User.findByIdAndUpdate(
+//       req.params.id,
+//       { $set: req.body },
+//       { new: true }
+//     );
+//     res.status(200).json(updatedUser);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
 
 
 
