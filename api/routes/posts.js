@@ -10,26 +10,57 @@ import multer from 'multer';
 // Assuming you've already configured Cloudinary
 const upload = multer({ dest: 'images/' }); // Set the destination folder as needed
 
+// postRoute.post("/", upload.single("file"), async (req, res) => {
+//   try {
+//     console.log("Request received to add a new post:", req.body);
+
+//     // Check if a file is provided
+//     if (!req.file) {
+//       console.error("No file provided.");
+//       return res.status(400).json({ error: 'No file provided.' });
+//     }
+
+//     // Access the file details
+//     const { originalname, filename } = req.file;
+    
+//     // Create a new post with the file details
+//     const newPost = new Post({
+//       desc: req.body.desc,
+//       userId: req.body.userId,
+//       username: req.body.username,
+//       img: filename, // Save the file name or use Cloudinary here
+//     });
+
+//     const post = await newPost.save();
+
+//     console.log("Post added successfully!");
+//     res.status(200).json(post);
+//   } catch (error) {
+//     console.error("Error adding post:", error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
 postRoute.post("/", upload.single("file"), async (req, res) => {
   try {
     console.log("Request received to add a new post:", req.body);
 
-    // Check if a file is provided
-    if (!req.file) {
-      console.error("No file provided.");
-      return res.status(400).json({ error: 'No file provided.' });
-    }
-
-    // Access the file details
-    const { originalname, filename } = req.file;
-    
-    // Create a new post with the file details
+    // Create a new post object
     const newPost = new Post({
       desc: req.body.desc,
       userId: req.body.userId,
       username: req.body.username,
-      img: filename, // Save the file name or use Cloudinary here
     });
+
+    // Check if a file is provided
+    if (req.file) {
+      // Access the file details
+      const { originalname, filename } = req.file;
+
+      // Add the image details to the post object
+      newPost.img = filename; // Save the file name or use Cloudinary here
+    }
 
     const post = await newPost.save();
 

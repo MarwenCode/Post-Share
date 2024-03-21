@@ -22,7 +22,7 @@ const Home = ({ isDarkTheme }) => {
         </div>
         <div className="center">
         <Share isDarkTheme={isDarkTheme} />
-          <Posts />
+          <Posts  isDarkTheme={isDarkTheme}/>
         </div>
         <div className="right">
           <div className="top">

@@ -4,7 +4,20 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+
  
+
+
+     // Styles pour le thème sombre
+ &.dark {
+  // Ajoutez vos styles pour le thème sombre ici
+  textarea {
+    // Styles spécifiques pour le contenu en thème sombre
+    background-color:#000; // Par exemple, fond sombre
+    color: #fff; // Par exemple, texte blanc
+  }
+}
+
 }
 
 .post {
@@ -38,7 +51,7 @@
     margin-right: 10px;
   }
 
- 
+
 
   .postUsername {
     font-weight: bold;
@@ -53,9 +66,7 @@
 .postCenter {
 
 
-  .postText {
-    
-  }
+  .postText {}
 }
 
 
@@ -97,9 +108,19 @@
 
 
 .postComments {
+
+  // &.dark {
+  //   background-color: #1f1d1d;
+  // }
+
+
   h3 {
     margin-bottom: 10px;
     font-size: 16px;
+
+    &.dark {
+      color: #fff;
+    }
   }
 
   .commentCount {
@@ -110,35 +131,42 @@
     .commentIcon {
       font-size: 16px;
       margin-right: 5px;
-     
+
     }
 
-    .nbr, .text {
-      color : grey;
+    .nbr,
+    .text {
+      color: grey;
       margin: 05px;
+
+      &.dark {
+        color: #ccc;
+      }
     }
   }
 
-
-  // textarea {
-  //   width: calc(100% - 42px);
-
-  // }
 
   textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
+
     border-radius: 4px;
 
-    width: 570px; 
-    resize: vertical
+    width: 570px;
+    resize: vertical;
+
+    &.dark {
+      background-color: #1f1d1d;
+    }
+
+
   }
 
   .add {
     // background-color: #656669;
-    background-color:#3152f6;
+    background-color: #3152f6;
     color: #fff;
     padding: 8px 12px;
     border: none;
@@ -147,6 +175,10 @@
     transition: background-color 0.3s;
 
     &:hover {
+      background-color: #132147;
+    }
+
+    &.dark {
       background-color: #132147;
     }
   }
@@ -166,43 +198,47 @@
       padding: 8px;
       border-radius: 8px;
       color: #555;
-    
+
+      &.dark {
+        background-color: #333;
+      }
+
       .content {
         flex-grow: 1;
-    
+
         strong {
           margin-right: 5px;
         }
-    
+
         .commentIcon {
           font-size: 16px;
           margin-right: 5px;
         }
-    
+
         .responseIcon {
           font-size: 16px;
           margin-right: 5px;
           cursor: pointer;
         }
       }
-    
+
       button {
         // background-color: transparent;
         cursor: pointer;
         border: none;
       }
-    
+
       .icons {
         display: inline-block;
         align-items: center;
         font-size: 16px;
         margin-right: 5px;
-    
+
         .deleteCommentIcon,
         .editCommentIcon {
           cursor: pointer;
           transition: color 0.3s;
-    
+
           /* Hover effect */
           &:hover {
             color: #ff0000;
@@ -210,8 +246,16 @@
         }
       }
     }
-    
-    
-    
+
+
+
   }
+
+
+
+
+
+
 }
+
+

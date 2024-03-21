@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MdPerson } from "react-icons/md";
+import { RxAvatar } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import './stories.scss';
 
@@ -84,7 +85,7 @@ const Stories = () => {
             {user.profilePicture ? (
                 <img src={user.profilePicture} alt="Profile" />
               ) : (
-                <MdPerson size={80} color="#555" />
+                <RxAvatar size={40} color="#555" />
               )}
               <span>{user.username}</span>
             

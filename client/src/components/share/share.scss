@@ -1,102 +1,138 @@
 .share-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem;
+  background-color: #fafcff;
+  color: #251e1e;
+  margin: 0 auto;
+  max-width: 600px;
+
+
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+
+    &::placeholder {
+      color: #999;
+    }
+
+    .dark & {
+      background-color: #222;
+      color: #fff;
+    }
+  }
+
+
+
+  .file-input {
+    // position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+
     display: flex;
-    flex-direction: column;
+  }
+
+  .file-input input[type="file"] {
+    display: none;
+
+
+  }
+
+
+
+  .file-input label {
+    // position: absolute;
+    // right: 260px;
+    top: 20px;
+    // width: 100%;
+    // height: 100%;
+
+    // background-color: #fff;
+
+    border-radius: 3px;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 1rem;
-    background-color: #fafcff;
-    color: #251e1e;
-    margin: 0 auto;
-    max-width: 600px;
+    justify-content: center;
+    cursor: pointer;
+  }
 
+  .picker {
+    font-size: 1rem;
+    z-index: 1;
+    position: absolute;
+    margin-bottom: -110px;
+    margin-top: 10px;
+    margin-right: -50px;
+    margin-left: 120px;
+    cursor: pointer;
+
+  }
+
+  .image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+    z-index: 999;
+  }
+
+
+
+  .share-actions {
+
+    .picker {
    
-  
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      resize: none;
-  
-      &::placeholder {
-        color: #999;
-      }
-    }
-  
-  
-
-    .file-input {
-      position: relative;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    
-    .file-input input[type="file"] {
-      display: none;
-    }
-    
-    .file-input label {
+      margin-top: -40px;
       position: absolute;
-      right: 260px;
-      top: 20px;
-      width: 100%;
-      height: 100%;
-      // background-color: #fff;
-    
-      border-radius: 3px;
+    }
+
+    .share-button {
       display: flex;
+      margin-top: -40px;
+      margin-right: 50px;
       align-items: center;
       justify-content: center;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      // background-color: #1b1c1d;
+      background-color: #3152f6;
+      color: #fff;
+      font-weight: bold;
       cursor: pointer;
-    }
+      transition: background-color 0.3s ease;
+      margin-left: 490px;
 
-    .image-preview {
-      max-width: 100%;
-      max-height: 200px; /* Ajustez la hauteur selon vos besoins */
-      margin-top: 10px; /* Ajoutez un espace entre le nom du fichier et l'image */
-      z-index: 999;
-    }
-  
-    .share-actions {
-      display: flex;
-      align-items: center;
-     gap: 100px;
-      margin-top: -50px;
-    
-  
-      .picker {
-        font-size: 1.2rem;
-        z-index: 1;
-        // position: absolute;
-        // margin-top: 180px;
-        margin-left: 50px;
-      }
-  
-      .share-button {
-        display: flex;
-        margin-top: 30px;
-        margin-right: 150px;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        // background-color: #1b1c1d;
-        background-color: #3152f6;
-        color: #fff;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-left: 490px;
-  
-        &:hover {
-          background-color: #0056b3;
-        }
+      &:hover {
+        background-color: #0056b3;
       }
     }
   }
+}
 
-  .dark {
-    background-color: #222;
-    color: #fff;
-  }
+.dark {
+  background-color: #222;
+  color: #fff;
+}
+
+
+
+
+
+.emoticon-picker {
+  background-color: rgba(49, 46, 46, 0.1);
+  border-radius: 4px;
+  // box-shadow: 0 2px 5px rgba(131, 127, 127, 0.1);
+  z-index: 1;
+  // width: 100% !important;
+  height: 70px;
+  border: 1px 1 solid grey;
+  border-radius: 10px;
+  padding: 10px;
+
+}

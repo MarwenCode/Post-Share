@@ -17,7 +17,7 @@ import { FaHeart } from "react-icons/fa";
 
 import ModalEditPost from "./ModalEditPost";
 
-const Posts = ({ visitedUserId }) => {
+const Posts = ({ visitedUserId, isDarkTheme }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user.data);
@@ -146,7 +146,7 @@ const Posts = ({ visitedUserId }) => {
   console.log(posts.posts);
 
   return (
-    <div className="postsContainer">
+      <div className={`postsContainer ${isDarkTheme ? "dark" : ""}`}>
       {filteredPosts.map((post) => (
         <div key={post._id} className="post">
           <div className="postWrapper">
@@ -218,7 +218,7 @@ const Posts = ({ visitedUserId }) => {
                       ...newComments,
                       [post._id]: e.target.value,
                     })
-                  } // Modify this line
+                  } 
                 />
                 <button
                   className="add"
