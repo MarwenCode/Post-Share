@@ -1,7 +1,6 @@
 // FriendsProfile.jsx
 
 import Share from "../../components/share/Share";
-import Navbar from "../../components/navbar/Navbar";
 import Posts from "../../components/posts/Posts";
 import { useLocation, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -16,36 +15,14 @@ import Trendings from "./Trendings";
 const FriendsProfile = ({isDarkTheme}) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [visitedUser, setVisitedUser] = useState(null);
   const currentUser = useSelector((state) => state.user.data);
   const [isFollowing, setIsFollowing] = useState(false);
   const [showStars, setShowStars] = useState(false);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
-  console.log(id)
-
-  useEffect(() => {
-    // Load user details based on ID
-    dispatch(loadUserById(id))
-      .then((resultAction) => {
-        if (loadUserById.fulfilled.match(resultAction)) {
-          setVisitedUser(resultAction.payload);
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading user by ID:", error);
-      });
-  }, [dispatch, id]); // Remove currentUser from dependencies
-
-  useEffect(() => {
-    // Check if the logged-in user already follows the visited user
-    setIsFollowing(
-      visitedUser &&
-        currentUser &&
-        visitedUser.followings.includes(currentUser._id)
-    );
-  }, [visitedUser, currentUser]); // Update this line
+  console.log(id);
+  console.log(id);
 
 
 
