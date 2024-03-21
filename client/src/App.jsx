@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { loadUserFromLocalStorage } from './redux/slices/userSlice';
 import Navbar from './components/navbar/Navbar';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';

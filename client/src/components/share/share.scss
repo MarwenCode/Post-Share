@@ -23,8 +23,8 @@
     }
 
     .dark & {
-      background-color: #222;
-      color: #fff;
+      background-color:#000; // Par exemple, fond sombre
+    color: #fff; // Par exemple, texte blanc
     }
   }
 
@@ -116,8 +116,8 @@
 }
 
 .dark {
-  background-color: #222;
-  color: #fff;
+  background-color:#000; // Par exemple, fond sombre
+    color: #fff; // Par exemple, texte blanc
 }
 
 

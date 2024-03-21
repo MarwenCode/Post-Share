@@ -82,12 +82,12 @@ const Stories = () => {
               onClick={handleImageClick}
             />
             <div className='overlay'>
-            {user.profilePicture ? (
+            {user?.profilePicture ? (
                 <img src={user.profilePicture} alt="Profile" />
               ) : (
                 <RxAvatar size={40} color="#555" />
               )}
-              <span>{user.username}</span>
+              <span>{user?.username}</span>
             
             </div>
           </div>

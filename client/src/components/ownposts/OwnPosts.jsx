@@ -6,7 +6,7 @@ import ModalEditComment from "../posts/ModalEditComment";
 import { FaHeart } from "react-icons/fa";
 import ModalEditPost from "../posts/ModalEditPost";
 
-const OwnPosts = () => {
+const OwnPosts = ({isDarkTheme}) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user.data);
@@ -130,7 +130,7 @@ const OwnPosts = () => {
     return <p>No posts available.</p>;
   }
   return (
-    <div className="postsContainer">
+    <div className={`postsContainer ${isDarkTheme ? "dark" : ""}`}>
       {posts.posts.map((post) => (
         <div key={post._id} className="post">
           {post.userId === user?._id && (
@@ -213,7 +213,7 @@ const OwnPosts = () => {
                     <>
                       <h3>Comments</h3>
                       <ul>
-                        {post.comments.map((comment) => (
+                        {post.comments?.map((comment) => (
                           <li key={comment._id}>
                             <div className="content">
                               <span className="commentIcon">🗨️</span>

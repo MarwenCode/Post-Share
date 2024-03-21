@@ -4,7 +4,7 @@ import axios from "axios";
 import { MdPerson, MdExpandMore, MdExpandLess } from "react-icons/md";
 import "./suggestedfriends.scss";
 
-const SuggestedFriends = () => {
+const SuggestedFriends = ({isDarkTheme}) => {
   const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [showFullList, setShowFullList] = useState(false); // Initialiser l'état à false
 
@@ -35,7 +35,8 @@ const SuggestedFriends = () => {
   };
 
   return (
-    <div className="suggested-friends-container">
+ 
+         <div className={`suggested-friends-container ${isDarkTheme ? "dark" : ""}`}>
       <button className="expand-button" onClick={toggleFullList}>
         {showFullList ? <MdExpandLess className="expand-icon" /> : <MdExpandMore className="expand-icon" />}
         <span>{showFullList ? "Hide Friends" : "Show All Friends"}</span>

@@ -109,9 +109,10 @@
 
 .postComments {
 
-  // &.dark {
-  //   background-color: #1f1d1d;
-  // }
+  &.dark {
+    background-color: #000;
+    color: #fff;
+  }
 
 
   h3 {
@@ -143,6 +144,12 @@
         color: #ccc;
       }
     }
+
+  
+
+   
+    
+    
   }
 
 
@@ -151,6 +158,7 @@
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
+  
 
     border-radius: 4px;
 
@@ -158,7 +166,8 @@
     resize: vertical;
 
     &.dark {
-      background-color: #1f1d1d;
+      background-color: #000;
+      color: #fff;
     }
 
 

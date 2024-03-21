@@ -17,7 +17,7 @@ const Home = ({ isDarkTheme }) => {
             <Stories />
           </div>
           <div className="down">
-            <Socials />
+            <Socials isDarkTheme={isDarkTheme} />
           </div>
         </div>
         <div className="center">
@@ -26,10 +26,10 @@ const Home = ({ isDarkTheme }) => {
         </div>
         <div className="right">
           <div className="top">
-            <Trendings />
+            <Trendings  isDarkTheme={isDarkTheme} />
           </div>
           <div className="down">
-            <SuggestedFriends />
+            <SuggestedFriends  isDarkTheme={isDarkTheme} />
           </div>
         </div>
       </div>

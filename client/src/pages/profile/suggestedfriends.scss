@@ -1,4 +1,3 @@
-
 .suggested-friends-container {
   position: fixed;
   bottom: 0;
@@ -13,6 +12,17 @@
   justify-content: space-between;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
+
+
+  .dark & {
+
+
+    background-color: #000;
+    color: #fff;
+
+  }
+
+
 }
 
 .expand-button {
@@ -21,7 +31,25 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+ 
+
+
+  .dark & {
+
+    color: white;
+  }
+
+  span {
+
+    color: black;
+
+
+    .dark & {
+      color: white;
+    }
+  }
 }
+
 
 .expand-icon {
   margin-right: 5px;
@@ -34,11 +62,11 @@
   overflow-y: auto;
   height: 150px;
   max-height: 0;
-  transition: max-height 0.5s ease; 
+  transition: max-height 0.5s ease;
 }
 
 .friends.show {
-  max-height: 200px; 
+  max-height: 200px;
 }
 
 .friend {

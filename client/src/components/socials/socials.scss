@@ -1,4 +1,15 @@
 .socials {
+
+
+  &.dark {
+   
+   
+    background-color:#000; 
+   color: #fff; 
+ }
+
+
+  
  
   
   .socials-list {
@@ -12,7 +23,13 @@
 
 
     border-radius: 20px; /* Adjusted border radius */
-    background-color: rgb(202, 226, 192);
+    // background-color: rgb(202, 226, 192);
+
+
+
+ 
+
+   
 
     li {
       flex: 1 0 calc(80% - 20px);
@@ -33,13 +50,29 @@
       p {
         display: block;
         font-size: 14px;
-        color: #333;
+ 
         margin-left: 10px;
+
+        &.dark {
+   
+   
+          color: #fff; 
+        }
       }
 
       &:hover {
         color: #007bff;
       }
+
+
+      &.dark {
+   
+   
+       color: #fff; 
+     }
+    
     }
   }
+
+
 }

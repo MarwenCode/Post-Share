@@ -77,7 +77,7 @@ const Profile = ({ isDarkTheme }) => {
         </div>
 
         <div className="center">
-          <OwnPosts />
+          <OwnPosts   isDarkTheme={isDarkTheme}  />
         </div>
 
         <div className="right">

@@ -7,10 +7,6 @@ import { useLocation, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { follow, unfollow } from "../../redux/slices/followSlice";
-import {
-  loadUserById,
-  loadUserFromLocalStorage,
-} from "../../redux/slices/userSlice";
 
 import "./friendsprofile.scss";
 import { MdPerson } from "react-icons/md";

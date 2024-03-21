@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
     "emoji-picker-react": "^4.7.12",
     "gsap": "^3.12.5",
     "react": "^18.2.0",
@@ -29,12 +30,20 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
+    "css-loader": "^6.10.0",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "html-webpack-plugin": "^5.6.0",
+    "rollup": "^4.13.0",
     "sass": "^1.70.0",
-    "vite": "^5.1.0"
+    "style-loader": "^3.3.4",
+    "vite": "^5.1.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
   },
   "proxy": "http://localhost:5500/api"
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import "./trendings.scss"
 
-const Trendings = () => {
+const Trendings = ({isDarkTheme}) => {
   const trendingTopics = [
     { topic: "#ReactJS", posts: 150 },
     { topic: "#WebDevelopment", posts: 120 },
@@ -66,7 +66,8 @@ const Trendings = () => {
   }, []);
 
   return (
-    <div className="trending">
+ 
+         <div className={`trending ${isDarkTheme ? "dark" : ""}`}>
       <h2>Today Trending </h2>
       <ul id="trendingList" ref={trendingListRef}>
         {trendingTopics.map((topic, index) => (
