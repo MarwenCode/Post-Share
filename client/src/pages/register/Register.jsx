@@ -91,7 +91,7 @@ const Register = () => {
         <div className="register">
           <div className="loginWrapper">
             <div className="loginLeft">
-              <span className="loginDesc">Make a touch & connect every where.</span>
+              <span className="loginDesc">Make a touch & connect everywhere.</span>
               <p>
                 Already have an account?
                 <Link to="/login" className="link">
