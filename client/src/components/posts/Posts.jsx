@@ -145,9 +145,15 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
 
   console.log(posts.posts);
 
+  console.log(posts.posts.map(post => post.createdAt));
+
+
   return (
       <div className={`postsContainer ${isDarkTheme ? "dark" : ""}`}>
-      {filteredPosts.map((post) => (
+        {filteredPosts
+      .slice() // Cloner le tableau
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Tri par date de création décroissante
+      .map((post) => (
         <div key={post._id} className="post">
           <div className="postWrapper">
             <div className="postTop">
