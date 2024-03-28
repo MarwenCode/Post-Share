@@ -10,37 +10,6 @@ import multer from 'multer';
 // Assuming you've already configured Cloudinary
 const upload = multer({ dest: 'images/' }); // Set the destination folder as needed
 
-// postRoute.post("/", upload.single("file"), async (req, res) => {
-//   try {
-//     console.log("Request received to add a new post:", req.body);
-
-//     // Check if a file is provided
-//     if (!req.file) {
-//       console.error("No file provided.");
-//       return res.status(400).json({ error: 'No file provided.' });
-//     }
-
-//     // Access the file details
-//     const { originalname, filename } = req.file;
-    
-//     // Create a new post with the file details
-//     const newPost = new Post({
-//       desc: req.body.desc,
-//       userId: req.body.userId,
-//       username: req.body.username,
-//       img: filename, // Save the file name or use Cloudinary here
-//     });
-
-//     const post = await newPost.save();
-
-//     console.log("Post added successfully!");
-//     res.status(200).json(post);
-//   } catch (error) {
-//     console.error("Error adding post:", error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
 
 postRoute.post("/", upload.single("file"), async (req, res) => {
   try {
@@ -52,6 +21,8 @@ postRoute.post("/", upload.single("file"), async (req, res) => {
       userId: req.body.userId,
       username: req.body.username,
     });
+
+    console.log(newPost)
 
     // Check if a file is provided
     if (req.file) {
@@ -73,37 +44,6 @@ postRoute.post("/", upload.single("file"), async (req, res) => {
 });
 
 
-//create a post
-// postRoute.post("/", async (req, res) => {
-//   try {
-//     const newPost = new Post(req.body);
-//     const post = await newPost.save();
-//     res.status(200).json(post);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
-
-// postRoute.post("/", async (req, res) => {
-//   try {
-//     console.log("Request received to add a new post:", req.body);
-//     const newPost = new Post(req.body);
-//     const post = await newPost.save();
-
-//     console.log("Post added successfully!");
-//     res.status(200).json(post);
-//   } catch (error) {
-//     console.error("Error adding post:", error);
-//     res.status(500).json({ error: 'Internal Server Error' });
- 
-//   }
-// });
-
-
-
-
-
-
 
 //update a post
 // Update a post (without checking userId)
@@ -121,7 +61,6 @@ postRoute.put("/:id", async (req, res) => {
 });
 
 
-//delete a post
 // delete a post
 postRoute.delete("/:id", async (req, res) => {
   console.log("Request Params:", req.params);
