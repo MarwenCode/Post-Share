@@ -1,40 +1,33 @@
 import express from "express";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 import Post from "../models/Post.js";
-import User from "../models/User.js";
-import Comment from "../models/Comment.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const postRoute = express.Router();
 
+const uploadPost = multer({ dest: path.join(__dirname, '../images') });
 
-import multer from 'multer';
-
-// Assuming you've already configured Cloudinary
-const upload = multer({ dest: 'images/' }); // Set the destination folder as needed
-
-
-postRoute.post("/", upload.single("file"), async (req, res) => {
+postRoute.post("/", uploadPost.single("file"), async (req, res) => {
   try {
     console.log("Request received to add a new post:", req.body);
+    console.log("Request received to add a new post:", req.file);
 
-    // Create a new post object
     const newPost = new Post({
       desc: req.body.desc,
       userId: req.body.userId,
       username: req.body.username,
     });
 
-    console.log(newPost)
-
-    // Check if a file is provided
     if (req.file) {
-      // Access the file details
       const { originalname, filename } = req.file;
-
-      // Add the image details to the post object
-      newPost.img = filename; // Save the file name or use Cloudinary here
+      newPost.img = filename;
     }
 
     const post = await newPost.save();
-
     console.log("Post added successfully!");
     res.status(200).json(post);
   } catch (error) {
@@ -42,6 +35,7 @@ postRoute.post("/", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 
@@ -74,6 +68,23 @@ postRoute.delete("/:id", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
+// // Delete a post
+// postRoute.delete("/:id", async (req, res) => {
+//   try {
+//     // Find the post by its ID and delete it
+//     await Post.findByIdAndDelete(req.params.id);
+    
+//     // Send a success message
+//     res.status(200).json({ message: "Post has been deleted successfully" });
+//   } catch (error) {
+//     // If an error occurs, send a 500 status code along with the error message
+//     console.error("Error deleting post:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
 
 
 //like && dislike a post

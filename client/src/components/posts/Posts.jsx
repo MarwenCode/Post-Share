@@ -26,6 +26,8 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
   const [editCommentMode, setEditCommentMode] = useState(false);
   const [editModePost, setEditModePost] = useState(false);
 
+  const image = "http://localhost:5500/medias/";
+
   const [likedPosts, setLikedPosts] = useState({});
 
   useEffect(() => {
@@ -37,7 +39,6 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
       dispatch(fetchPosts());
     }
   }, [dispatch, visitedUserId]);
-
 
   const handleLike = async (postId) => {
     try {
@@ -53,7 +54,7 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
       console.log("Error liking post:", error);
     }
   };
-  
+
   //add new comments
 
   const handleAddComment = async (postId) => {
@@ -145,30 +146,34 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
 
   console.log(posts.posts);
 
-  console.log(posts.posts.map(post => post.createdAt));
+  console.log(posts.posts.map((post) => post.createdAt));
 
+
+  // Tri des posts par date de création (du plus récent au plus ancien)
+  let sortedPosts = [...filteredPosts];
+  sortedPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
 
   return (
-      <div className={`postsContainer ${isDarkTheme ? "dark" : ""}`}>
-        {filteredPosts
-      .slice() // Cloner le tableau
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Tri par date de création décroissante
-      .map((post) => (
-        <div key={post._id} className="post">
+    <div className={`postsContainer ${isDarkTheme ? "dark" : ""}`}>
+      {sortedPosts.map((post) => (
+        <div key={post?._id} className="post">
           <div className="postWrapper">
             <div className="postTop">
               {/* <img className="postImg" src={post.img} alt="" /> */}
-              <span className="postUsername">{post.username}</span>
+              <span className="postUsername">{post?.username}</span>
               <span className="postDate">
-                {new Date(post.createdAt).toDateString()}
+                {new Date(post?.createdAt).toDateString()}
               </span>
             </div>
             <div className="postCenter">
               {console.log("Current post:", post)}
               <span className="postText">{post.desc}</span>
+              {console.log(post.img)}
               {post.img && (
                 <img
                   className="postImage"
+                  // src={post.img}
                   src={`http://localhost:5500/images/${post.img}`}
                   alt="Post"
                 />
@@ -211,9 +216,9 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
                 <div
                   className="commentCount"
                   onClick={() => toggleComments(post._id)}>
-                  <span className="commentIcon" >🗨️</span>
-                 <span className="nbr"> {post?.comments?.length} </span> <span className="text" >Comments</span>
-
+                  <span className="commentIcon">🗨️</span>
+                  <span className="nbr"> {post?.comments?.length} </span>{" "}
+                  <span className="text">Comments</span>
                 </div>
 
                 <textarea
@@ -224,7 +229,7 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
                       ...newComments,
                       [post._id]: e.target.value,
                     })
-                  } 
+                  }
                 />
                 <button
                   className="add"
@@ -236,7 +241,7 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
                   <>
                     <h3>Comments</h3>
                     <ul>
-                      {post.comments.map((comment) => (
+                      {post.comments?.map((comment) => (
                         <li key={comment._id}>
                           <div className="content">
                             <span className="commentIcon">🗨️</span>
@@ -251,9 +256,11 @@ const Posts = ({ visitedUserId, isDarkTheme }) => {
                               </>
                             ) : (
                               <>
-                                <strong>{comment.username}</strong>:{" "}
+                                <strong>{comment.username}</strong>:
                                 {comment.text}
-                                {new Date(comment.createdAt).toDateString()}
+                                <span className="commentDate">
+                                  {new Date(comment.createdAt).toDateString()}
+                                </span>
                               </>
                             )}
                           </div>

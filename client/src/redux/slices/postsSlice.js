@@ -5,7 +5,7 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get(
-      "http://localhost:5500/api/post"
+      "https://postandshare-api.onrender.com/api/post"
     );
     return response.data;
   } catch (error) {
@@ -17,7 +17,7 @@ export const fetchOwnPosts = createAsyncThunk("posts/fetchOwnPosts", async () =>
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get(
-      "http://localhost:5500/api/post/myposts/:id"
+      "https://postandshare-api.onrender.com/api/post/myposts/:id"
     );
     return response.data;
   } catch (error) {
@@ -30,7 +30,7 @@ export const fetchUserPosts = createAsyncThunk("posts/fetchUserPosts", async ({ 
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get(
-      `http://localhost:5500/api/post/${userId}`
+      `https://postandshare-api.onrender.com/api/post/${userId}`
     );
     return response.data;
   } catch (error) {
@@ -45,7 +45,7 @@ export const addComment = createAsyncThunk(
     // eslint-disable-next-line no-useless-catch
     try {
       const response = await axios.post(
-        `http://localhost:5500/api/comments/${postId}`,
+        `https://postandshare-api.onrender.com/api/comments/${postId}`,
         comment
       );
       return response.data;
@@ -61,7 +61,7 @@ export const deleteComment = createAsyncThunk(
     // eslint-disable-next-line no-useless-catch
     try {
       await axios.delete(
-        `http://localhost:5500/api/comments/${commentId}`
+        `https://postandshare-api.onrender.com/api/comments/${commentId}`
       );
       return commentId;
     } catch (error) {
@@ -76,7 +76,7 @@ export const editComment = createAsyncThunk(
     // eslint-disable-next-line no-useless-catch
     try {
       const response = await axios.put(
-        `http://localhost:5500/api/comments/${commentId}`,
+        `https://postandshare-api.onrender.com/api/comments/${commentId}`,
         { text: updatedText }
       );
       return response.data;
@@ -86,60 +86,17 @@ export const editComment = createAsyncThunk(
   }
 );
 
-// export const addPost = createAsyncThunk('posts/addPost', async (postData, thunkAPI) => {
-//   try {
-//     const user = thunkAPI.getState().user.data;
-
-//     // Ensure that required data is available
-//     if (!postData.desc || !user._id || !user.username) {
-//       console.error('Description, userId, and username are required.');
-//       return;
-//     }
-
-//     // Create a FormData object to send as the request body
-//     const formData = new FormData();
-//     formData.append('desc', postData.desc);
-//     formData.append('userId', user._id);
-//     formData.append('username', user.username);
-
-//     // Append the image file if available
-//     if (postData.picture) {
-//       formData.append('picture', postData.picture);
-//     }
-
-//     // Send the request to the server
-//     const response = await axios.post('http://localhost:5500/api/post', formData);
-
-//     // Return the response data
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error adding post:', error);
-//     return thunkAPI.rejectWithValue(error.response.data);
-//   }
-// });
 
 
-export const addPost = createAsyncThunk('posts/addPost', async (postData, thunkAPI) => {
+
+// Modify the addPost action creator to handle formData
+export const addPost = createAsyncThunk('posts/addPost', async (formData, thunkAPI) => {
   try {
-    const { desc, img } = postData;
-    const { _id, username } = thunkAPI.getState().user.data;
-
-    // Ensure that required data is available
-    if (!desc || !_id || !username) {
-      console.error('Description, userId, and username are required.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('desc', desc);
-    formData.append('userId', _id);
-    formData.append('username', username);
-
-    if (img) {
-      formData.append('file', img); // Use the same key as in your component
-    }
-
-    const response = await axios.post('http://localhost:5500/api/post', formData);
+    const response = await axios.post('https://postandshare-api.onrender.com/api/post', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data' // Set content type for formData
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error adding post:', error);
@@ -149,43 +106,17 @@ export const addPost = createAsyncThunk('posts/addPost', async (postData, thunkA
 
 
 
-// export const addPost = createAsyncThunk(
-//   "posts/addPost",
-//   async (postData, thunkAPI) => {
-//     try {
-//       const user = thunkAPI.getState().user.data;
 
-//       // Ensure that required data is available
-//       if (!postData.desc || !user._id || !user.username) {
-//         console.error("Description, userId, and username are required.");
-//         return;
-//       }
-
-//       // Create a plain object to send as the request body
-//       const newPostData = {
-//         desc: postData.desc,
-//         userId: user._id,
-//         username: user.username,
-//       };
-
-//       // Send the request to the server
-//       const response = await axios.post("http://localhost:5500/api/post", newPostData);
-
-//       // Return the response data
-//       return response.data;
-//     } catch (error) {
-//       console.error("Error adding post:", error);
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   }
-// );
 
 //delete post
 export const deletePost = createAsyncThunk(
+
   "posts/deletePost",
   async ({ postId }) => {
+
     try {
-      await axios.delete(`http://localhost:5500/api/post/${postId}`);
+      // await axios.delete(`http://localhost:5500/api/post/${postId}`);
+      await axios.delete(`https://postandshare-api.onrender.com/api/post/${postId}`);
 
       return postId;
     } catch (error) {
@@ -197,7 +128,7 @@ export const deletePost = createAsyncThunk(
 
 export const editPost = createAsyncThunk("posts/editPost", async ({ postId, updatedText }) => {
   try {
-    const response = await axios.put(`http://localhost:5500/api/post/${postId}`, {
+    const response = await axios.put(`https://postandshare-api.onrender.com/api/post/${postId}`, {
       desc: updatedText,
     });
     return response.data;
@@ -209,7 +140,7 @@ export const editPost = createAsyncThunk("posts/editPost", async ({ postId, upda
 
 export const likePost = createAsyncThunk("posts/likePost", async ({ postId, userId }) => {
   try {
-    const response = await axios.put(`http://localhost:5500/api/post/${postId}/like`, { userId });
+    const response = await axios.put(`https://postandshare-api.onrender.com/api/post/${postId}/like`, { userId });
     return { postId, userId, action: response.data }; // Response data could be "liked" or "disliked"
   } catch (error) {
     throw error;

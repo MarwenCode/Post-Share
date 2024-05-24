@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { MdPerson } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import './stories.scss';
+import "./stories.scss";
 
 const Stories = () => {
   const user = useSelector((state) => state.user.data);
@@ -13,23 +13,29 @@ const Stories = () => {
 
   // User data for each image
   const usersData = [
-    { name: 'John Doe', photo: 'https://source.unsplash.com/random/50x50?user1' },
-    { name: 'Jane Smith', photo: 'https://source.unsplash.com/random/50x50?user2' },
+    {
+      name: "John Doe",
+      photo: "https://source.unsplash.com/random/50x50?user1",
+    },
+    {
+      name: "Jane Smith",
+      photo: "https://source.unsplash.com/random/50x50?user2",
+    },
     // Add more user data as needed
   ];
 
   // Liste de 10 images d'Unsplash (remplacez les URL par celles que vous souhaitez utiliser)
   const unsplashImageList = [
-    'https://source.unsplash.com/random/800x600?1',
-    'https://source.unsplash.com/random/800x600?2',
-    'https://source.unsplash.com/random/800x600?3',
-    'https://source.unsplash.com/random/800x600?4',
-    'https://source.unsplash.com/random/800x600?5',
-    'https://source.unsplash.com/random/800x600?6',
-    'https://source.unsplash.com/random/800x600?7',
-    'https://source.unsplash.com/random/800x600?8',
-    'https://source.unsplash.com/random/800x600?9',
-    'https://source.unsplash.com/random/800x600?10',
+    "https://source.unsplash.com/random/800x600?1",
+    "https://source.unsplash.com/random/800x600?2",
+    "https://source.unsplash.com/random/800x600?3",
+    "https://source.unsplash.com/random/800x600?4",
+    "https://source.unsplash.com/random/800x600?5",
+    "https://source.unsplash.com/random/800x600?6",
+    "https://source.unsplash.com/random/800x600?7",
+    "https://source.unsplash.com/random/800x600?8",
+    "https://source.unsplash.com/random/800x600?9",
+    "https://source.unsplash.com/random/800x600?10",
   ];
 
   useEffect(() => {
@@ -42,7 +48,9 @@ const Stories = () => {
         if (progress >= 15) {
           // Reset progress and move to the next set of 3 images
           setProgress(0);
-          setCurrentIndex((prevIndex) => (prevIndex + 3) % unsplashImageList.length);
+          setCurrentIndex(
+            (prevIndex) => (prevIndex + 3) % unsplashImageList.length
+          );
         }
       }, 1000);
 
@@ -60,54 +68,58 @@ const Stories = () => {
     setModalVisible(true);
   };
 
-
-  
-
   const closeModal = () => {
     setModalVisible(false);
   };
 
-  const handleImageClick = () => {
+  const handleImageClick = (index) => {
+    setCurrentIndex(index);
     openModal();
   };
 
   return (
-    <div className='stories'>
-      <div className='story-container'>
-        {unsplashImageList.slice(currentIndex, currentIndex + 3).map((imageUrl, index) => (
-          <div key={index} className='story-item'>
-            <img
-              src={imageUrl}
-              alt={`Story ${index + 1}`}
-              onClick={handleImageClick}
-            />
-            <div className='overlay'>
-            {user?.profilePicture ? (
-                <img src={user.profilePicture} alt="Profile" />
-              ) : (
-                <RxAvatar size={40} color="#555" />
-              )}
-              <span>{user?.username}</span>
-            
+    <div className="stories">
+      <div className="story-container">
+        {unsplashImageList
+          .slice(currentIndex, currentIndex + 3)
+          .map((imageUrl, index) => (
+            <div key={index} className="story-item">
+              <img
+                src={imageUrl}
+                alt={`Story ${index + 1}`}
+                onClick={() => handleImageClick(currentIndex + index)}
+              />
+
+              <div className="overlay">
+                {user?.profilePicture ? (
+                  <img src={user.profilePicture} alt="Profile" />
+                ) : (
+                  <RxAvatar size={40} color="#555" />
+                )}
+                <span>{user?.username}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* Modal with progress bar */}
       {modalVisible && (
-        <div className='modal'>
-           
-          <div className='progress-bar' style={{ width: `${(progress / 12) * 100}%` }} />
-          <div className='modal-content'>
+        <div className="modal">
+          <div
+            className="progress-bar"
+            style={{ width: `${(progress / 12) * 100}%` }}
+          />
+          <div className="modal-content">
             {/* Image to display in the modal */}
             <img
               src={unsplashImageList[currentIndex]}
-              alt='Selected Story'
+              alt="Selected Story"
               // style={{ width: '100%', height: 'auto' }}
             />
           </div>
-          <button className="close-button" onClick={closeModal}>X</button>
+          <button className="close-button" onClick={closeModal}>
+            X
+          </button>
         </div>
       )}
     </div>

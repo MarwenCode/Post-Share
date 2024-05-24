@@ -19,7 +19,7 @@ import axios from 'axios';
 
 export const follow = createAsyncThunk('follow/follow', async (id, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`http://localhost:5500/api/user/follow/${id}`);
+    const response = await axios.put(`https://postandshare-api.onrender.com/api/user/follow/${id}`);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -28,7 +28,7 @@ export const follow = createAsyncThunk('follow/follow', async (id, { rejectWithV
 
 export const unfollow = createAsyncThunk('follow/unfollow', async (id, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`http://localhost:5500/api/user/unfollow/${id}`);
+    const response = await axios.put(`https://postandshare-api.onrender.com/api/user/unfollow/${id}`);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);

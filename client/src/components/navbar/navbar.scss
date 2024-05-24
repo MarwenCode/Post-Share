@@ -21,8 +21,11 @@
   }
 
   .searchbar {
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    margin-right:  35px;
+  
     
 
     input[type="text"] {
@@ -33,7 +36,7 @@
       font-size: 1rem;
       width: 500px;
       outline: none;
-      background-color: #d0d19c;
+      background-color: #e7e7e3;
     }
 
     button {

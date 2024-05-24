@@ -1,11 +1,11 @@
 
-
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaImage } from "react-icons/fa";
 import { useState } from "react";
 import { addPost } from "../../redux/slices/postsSlice";
 import "./share.scss";
 import { useDispatch, useSelector } from "react-redux";
+
 
 const Share = ({ isDarkTheme }) => {
   const dispatch = useDispatch();
@@ -16,58 +16,113 @@ const Share = ({ isDarkTheme }) => {
   const [fileName, setFileName] = useState("");
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleAddPost = async () => {
-    try {
-      // Ensure that required data is available
-      if (!description || !user?._id || !user?.username) {
-        console.error("Description, userId, and username are required.");
-        return;
-      }
 
-      // Create a plain object to send as the request body
-      let postData = {
-        desc: description,
-        userId: user?._id,
-        username: user?.username,
-      };
+// const handleAddPost = async () => {
+//   try {
+//     // Validate description
+//     if (!description.trim()) {
+//       console.error('Description is required.');
+//       return;
+//     }
 
-      // Add the image to the postData if available
-      if (picture) {
-        postData.img = picture;
-      }
+//     // Validate user data
+//     if (!user?._id || !user?.username) {
+//       console.error('userId and username are required.');
+//       return;
+//     }
 
-      // Dispatch the addPost action
-      const response = await dispatch(addPost(postData));
+//     // Create FormData object to handle file upload
+//     const formData = new FormData();
+//     formData.append('desc', description);
+//     formData.append('userId', user._id);
+//     formData.append('username', user.username);
 
-      // Check if the post was added successfully
-      if (response.payload) {
-        const imageUrl = response.payload.img; // Assuming the response structure, adjust as needed
-        console.log("Post added successfully!");
+//     // Check if an image is selected
+//     if (picture) {
+//       formData.append('file', picture);
+//     }
 
-        // Do something with the imageUrl, e.g., update state or UI
-        // For simplicity, you can log it for now
-        console.log("Image URL:", imageUrl);
+//     // Dispatch the addPost action with the formData
+//     const response = await dispatch(addPost(formData));
 
-        // Clear input fields after successful post
-        setDescription("");
-        setPicture(null);
-        setFileName("");
-      }
-    } catch (error) {
-      console.error("Error adding post:", error);
+//     if (response.payload) {
+//       console.log('Post added successfully!');
+//       // Clear input fields after successful post
+//       setDescription('');
+//       setPicture(null);
+//        setFileName("");
+//       document.getElementById('file-upload').value = '';
+  
+//     } else {
+//       console.error('Failed to add post:', response.error);
+//     }
+//   } catch (error) {
+//     console.error('Error adding post:', error);
+//   }
+// };
+
+
+
+
+
+const handleAddPost = async () => {
+  try {
+    // Validate description
+    if (!description.trim()) {
+      console.error('Description is required.');
+      return;
     }
-  };
 
-  const handlePictureChange = (e) => {
-    const file = e.target.files[0];
+    // Validate user data
+    if (!user?._id || !user?.username) {
+      console.error('userId and username are required.');
+      return;
+    }
 
-    // Create an URL from the selected file
-    const imageUrl = URL.createObjectURL(file);
+    // Create FormData object to handle file upload
+    const formData = new FormData();
+    formData.append('desc', description);
+    formData.append('userId', user._id);
+    formData.append('username', user.username);
 
-    // Update the state to display the image and URL
-    setPicture(file);
-    setFileName(imageUrl);
-  };
+    // Check if an image is selected
+    if (picture) {
+      formData.append('file', picture);
+    }
+
+    // Log FormData object to check contents
+    console.log('FormData:', formData);
+
+    // Dispatch the addPost action with the formData
+    const response = await dispatch(addPost(formData));
+
+    if (response.payload) {
+      console.log('Post added successfully!');
+      // Clear input fields after successful post
+      setDescription('');
+      setPicture(null);
+      setFileName('');
+      document.getElementById('file-upload').value = '';
+    } else {
+      console.error('Failed to add post:', response.error);
+    }
+  } catch (error) {
+    console.error('Error adding post:', error);
+  }
+};
+
+
+
+const handlePictureChange = (e) => {
+  const file = e.target.files[0];
+
+  // Create an URL from the selected file
+  const imageUrl = URL.createObjectURL(file);
+
+  // Update the state to display the image and URL
+  setPicture(file);
+  setFileName(imageUrl);
+};
 
   const handlePickerClick = () => {
     setShowPicker(!showPicker);

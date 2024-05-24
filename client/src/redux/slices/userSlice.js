@@ -6,7 +6,7 @@ import axios from 'axios';
 export const loginUser = createAsyncThunk('user/login', async ({ email, password }, { rejectWithValue }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const response = await axios.post("http://localhost:5500/api/auth/login", { email, password });
+    const response = await axios.post("https://postandshare-api.onrender.com/api/auth/login", { email, password });
 
     if (response.status === 200) {
       return { status: response.status, data: response.data };
@@ -32,7 +32,7 @@ export const loadUserById = createAsyncThunk('user/loadUserById', async (userId,
     // Load the user from local storage
     dispatch(loadUserFromLocalStorage());
     // Fetch details of the user based on the ID
-    const response = await axios.get(`http://localhost:5500/api/user/${userId}`);
+    const response = await axios.get(`https://postandshare-api.onrender.com/api/user/${userId}`);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.message);
@@ -64,7 +64,7 @@ export const updateUser = createAsyncThunk(
         formData.append(key, updatedData[key]);
       }
 
-      const response = await axios.put(`http://localhost:5500/api/user/${userId}`, formData, {
+      const response = await axios.put(`https://postandshare-api.onrender.com/api/user/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
